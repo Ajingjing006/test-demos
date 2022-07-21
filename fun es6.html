@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		
+	</body>
+	<script>
+		// function loadData() {//接口，请求获得数据
+		// 	return fetch('./1.html')
+		// }
+		// var i = 10;
+		// async function intervalLoad() {
+		// 	let res = await loadData();
+		// 	if (res && i-- > 0) {//控制结束时机
+		// 		console.log(res);
+		// 		setTimeout(intervalLoad, 1000);// 1000是最少等待间隔时间
+		// 	}
+		// }
+		// intervalLoad();// 启动
+		
+		// function* fn() {
+		// 	yield 1;
+		// 	return 99;
+		// }
+		// var f = fn();
+		// console.log(f);
+		// var b = f.next();
+		// console.log(b);
+		// var c = f.next();
+		// console.log(c);
+		// var d = f.next();
+		// console.log(d);
+		
+		// function* g() {
+		// 	for (let i of [1,99,8]) {
+		// 	    yield i;
+		// 	}
+		// }
+		
+		// for (let i of g()) {
+		//     console.log(i)
+		// }
+		
+		// function* g2() {
+		//     yield* [1,99,8];
+		// 	return 666;
+		// }
+		
+		// var sss = g2();
+		// // for (let i of sss) {
+		// //     console.log(i)
+		// // }
+		// var s;
+		// function* test (){
+		// 	s = yield* g2();
+		// }
+		// var d = test();
+		// d.next();
+		// d.next();
+		// d.next();
+		// // d.next();
+		// console.log(111, s);
+		
+		// function* fn1() {
+		// 	yield 1;
+		// 	yield* [2,3,4];
+		// 	return 5;
+		// }
+		// function fn2() {
+		// 	var _fn1 = fn1();
+		// 	while (true) {
+		// 		var {value, done} = _fn1.next();
+		// 		if (!done) {
+		// 			console.log(value)
+		// 		} else {
+		// 			return value;
+		// 		}
+		// 	}
+		// }
+		// var s = fn2();
+		// console.log(2, s);
+		// var data = '';
+		// function* fn3() {
+		// 	yield 0;
+		// 	data = yield* fn1();
+		// }
+		
+		// function fn4() {
+		// 	var _t = fn3();
+		// 	while(true) {
+		// 		var {value, done} = _t.next();
+		// 		if (done) {
+		// 			console.log('done', data);
+		// 			return value;
+		// 		} else {
+		// 			console.log(value)
+		// 		}
+		// 	}
+		// }
+		// fn4();
+		
+		// function test() {
+		// 	console.log(arguments.length)
+		// }
+		// test()
+		// test(1)
+		// test(1, 1)
+		// test(1,1,1,1,1)
+	</script>
+	<!-- <script src="./js/lib/ramda.min.js"></script> -->
+	<script>
+	// var a = {
+	// 	b: {
+			
+	// 	}
+	// }
+	// var s = R.pipe(
+	// 	x => R.path(['b', 'c'])(x) || [] ,
+	// 	R.find(x=>x > 90)
+	// )(a) || {}
+	// console.log(s);
+	
+	function negate(func) {
+		return function (...args) {
+			return !func.apply(null, args)
+		}
+	}
+	
+	function isObject(val) {
+		return typeof val === 'object'
+	}
+	
+	
+	console.log(negate(isObject)({}))
+	
+	
+	
+	</script>
+</html>

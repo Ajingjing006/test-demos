@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>测试页面</title>
+		<style>
+			html {
+				font-size: 40px;
+			}
+			body {
+				padding: 0;
+				margin: 0;
+				cursor: pointer;
+			}
+			.main-cont {
+				background-color: white;
+			}
+			.bg-mix-blend-mode {
+				position: fixed;
+				width: 1.5rem;
+				height: 1.5rem;
+				background: pink;
+				
+				border-radius: 50%;
+				
+				left: 2rem;
+				bottom: 4rem;
+				transition: all 400ms ease-in-out;
+			}
+			
+			.bg-mix-blend-mode.active {
+				background: #ABCDEF;
+				transform: scale(60);
+				transform-origin: center center;
+				mix-blend-mode: difference;
+			}
+			#modeBtn {
+				position: fixed;
+				width: 1.3rem;
+				height: 1.3rem;
+				background: darkblue;
+				border-radius: 50%;
+				left: 2.1rem;
+				bottom: 4.1rem;
+				cursor: pointer;
+				border: none;
+				outline: none;
+				animation: abc 300ms linear infinite;
+			}
+			#modeBtn:hover {
+				border-top-left-radius: 150%;
+				border-top-right-radius: 95%;
+				border-bottom-left-radius: 88%;
+				border-bottom-right-radius: 150%;
+				transform: rotateZ(15deg);
+			}
+		</style>
+	</head>
+	<body>
+		<input type="file" onchange="abcd(event)" />
+		<div class="bg-mix-blend-mode">
+			
+		</div>
+		<button id="modeBtn">
+			
+		</button>
+		<img id="ab" />
+		<div class="main-cont">
+			details
+			<details>
+				<summary>头部描述</summary>
+				<p>展开后的完整信息1</p>
+				<div>展开后的完整信息2</div>
+			</details>
+			<hr>
+			
+			<hr>
+		</div>
+	</body>
+	<script>
+		let modeBtnCont = document.querySelector('.bg-mix-blend-mode');
+		modeBtn.addEventListener('click', function () {
+			let classList = modeBtnCont.classList;
+			if (classList.length == 2) {
+				classList.remove('active');
+			} else {
+				classList.add('active');
+			}
+		})
+		var cssEl = document.createElement('style');
+		var cssContent = document.createTextNode('@keyframes abc{0%{opacity: 0.5} 100%{opacity:1}}');
+		cssEl.appendChild(cssContent);
+		document.querySelector('head').appendChild(cssEl);
+		
+		function abcd(e) {
+			console.log(e)
+		}
+		document.querySelector('#ab').addEventListener('load', function(e) {
+			console.log(e)
+		})
+	</script>
+</html>

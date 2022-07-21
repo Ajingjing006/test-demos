@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+</head>
+<body>
+	<canvas id="palatteCanvas" width="100"  height="300">
+		
+	</canvas>
+</body>
+	<script>
+		let padding_top = 20
+		let padding_left = 10
+		let width = 20, height = 255
+	function createPalette () {
+        // let colorStops = {
+        //     0: "#01ffdf",
+        //     0.3: "#93ff6f",
+        //     0.6: "#ff8b3c",
+        //     1: "#ff0000"
+        // }
+		
+		// let colorStops = {
+		//     0.1: "#E20C0C",
+		//     0.26: "#E20C0C",
+		// 	0.42: "#FF8318",
+		//     0.58: "#FF8318",
+		// 	0.74: "#FE4312",
+		//     0.9: "#E20C0C",
+		// 	1.0: "#E20C0C"
+		// }
+		
+		let colorStops = {
+		    0.1: getRGBColor("#E20C0C", 0.1),
+		    0.26: getRGBColor("#E20C0C", 0.1),
+			0.42: getRGBColor("#FF8318", 0.3),
+		    0.58: getRGBColor("#FF8318", 0.8),
+			0.74: getRGBColor("#FE4312", 0.8),
+		    0.9: getRGBColor("#E20C0C", 0.8),
+			1.0: getRGBColor("#E20C0C", 0.8)
+		}
+		// 
+		//  let colorStops = {
+  //           0: Heatmap.getRGBColor("#E20C0C", 0.1),
+  //           0.2: Heatmap.getRGBColor("#E20C0C", 0.1),
+  //           0.4: Heatmap.getRGBColor("#FF8318", 0.3),
+  //           0.6: Heatmap.getRGBColor("#FF8318", 0.8),
+  //           0.8: Heatmap.getRGBColor("#E20C0C", 0.8),
+  //           1.0: Heatmap.getRGBColor("#E20C0C", 0.8)
+  //       }
+		
+		//getRGBColor(color, alpha)
+
+		let palatteCanvas = document.querySelector('#palatteCanvas')
+        let ctx = palatteCanvas.getContext("2d")
+
+        // 创建线性渐变色
+        let linearGradient = ctx.createLinearGradient(0, height, 0, 0);
+        for (const key in colorStops) {
+            linearGradient.addColorStop(key, colorStops[key])
+        }
+
+        // 绘制渐变色条
+        ctx.fillStyle = linearGradient
+        ctx.fillRect(padding_left, padding_top, width, height)		
+		
+		//createLegendLines(ctx, colorStops)		
+		
+        return {
+            canvas: palatteCanvas,
+            pickColor: function (per) {
+                return pickColor(ctx, per)
+            }
+        }
+    }
+	
+	function pickColor(ctx, per) {
+		// 读取像素值
+		let imageData = ctx.getImageData(padding_left, padding_top, 1, height).data
+		var position = Math.floor(imageData.length/4 * per * 0.01) * 4
+		return imageData.slice(position, position + 4)
+	}
+	
+	var palette = createPalette()
+	var per = '20'
+	console.log(palette.pickColor(per))
+	
+	//绘制标尺
+	function createLegendLines(ctx, colors, maxValue) {
+		maxValue = maxValue || 3000
+		let rectangle = {
+			x: 0,
+			y: 20,
+			w: 20,
+			h: 255
+		}
+		let padding = 5
+		let lineWeight = 2
+		let lineLength = 20
+
+		for (let i in colors) {
+			let y = parseInt((1 - parseFloat(i)) * rectangle.h)
+			if (y > rectangle.h - lineWeight) {
+				y = rectangle.h - lineWeight
+			}
+			ctx.fillStyle = '#fff'
+			if (i === '0' || i === '1') {
+				ctx.fillStyle = '#777'
+			}
+			ctx.fillRect(rectangle.x + padding_left, y + padding_top, lineLength, lineWeight)
+			createLegendText(ctx, {
+				x: rectangle.x + rectangle.w + padding,
+				y: y,
+				value: maxValue * parseFloat(i)
+			})
+		}
+	}
+	
+	function createLegendText(ctx, data) {
+		let x = data.x
+		let y = data.y
+		ctx.font = '12px serif';
+		ctx.fillStyle = "#000"
+		ctx.fillText(data.value, x + padding_left, y + 4 + padding_top);
+	}
+	
+	function getRGBColor(color, alpha) {
+        let val = color.replace('#', '')
+        let r
+        let g
+        let b
+        alpha = alpha || 0
+        if (val.length == 3) {
+            r = val.substring(0,1)
+            r = r + r
+            g = val.substring(1,2)
+            g = g + g
+            b = val.substring(2,3)
+            b = b + b
+        } else {
+            r = val.substring(0,2)
+            g = val.substring(2,4)
+            b = val.substring(4,6)
+        }
+        let result = `rgba(${parseInt(r, 16)}, ${parseInt(g, 16)}, ${parseInt(b, 16)}, ${alpha})`
+        return result
+    }
+	</script>
+</html>

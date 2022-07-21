@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width" />
+		<title>角度单位turn 圈</title>
+		<title></title>
+		<style>
+			.div2 {
+				font-size: 1rem;
+			}
+			.div1 {
+				font-size: 16px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="div1">12321312321</div>
+		<div class="div2">12321312321</div>
+	</body>
+	<script>
+		window.onresize = setRem;
+		setRem();
+		function setRem() {
+			const baseSize = 20;
+			const baseW = 375;
+			screen.width;
+			const htmlEle = document.querySelector('html');
+			const logicFontSize = screen.width/baseW * 16;
+			htmlEle.style.fontSize = logicFontSize + 'px';
+			htmlEle.dataset.fontSize = logicFontSize;
+			setTimeout(resetZoom, 0);
+		}
+		function resetZoom() {
+			const htmlEle = document.querySelector('html');
+			const current = window.getComputedStyle(htmlEle)['font-size'].replace('px', '');
+			const setVal = htmlEle.dataset.fontSize;
+			const zoom = current / setVal;
+			const finalFontSize = setVal/zoom;
+			htmlEle.style.fontSize = finalFontSize + 'px';
+			console.log(zoom);
+		}
+	</script>
+</html>

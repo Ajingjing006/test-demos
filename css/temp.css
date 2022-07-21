@@ -1,0 +1,8 @@
+@charset "utf-8";
+body {
+	padding: 0;
+	margin: 0;
+}
+.main-content {
+	background: url(../img/icon2.png) 2px 2px;
+}

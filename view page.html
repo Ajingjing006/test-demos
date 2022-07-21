@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>简单的节点画线</title>
+		<link href="css/main.css" rel="stylesheet" />
+		<style>
+			
+		</style>
+	</head>
+	<body>
+		<div class="main-content"></div>
+	</body>
+	<script src="js/jquery-3.4.0.js"></script>
+	<script src="js/handlebars.min.js"></script>
+	<script src="js/jquery-handlebars-1.1.4.min.js"></script>
+	<script src="js/util.js"></script>
+	<script src="js/Line.js"></script>
+	<script src="js/parseJSON.js"></script>
+	<script>	
+		var lineArray = [];
+		var timeDuration = 5;
+		var bonceTimer;
+		
+		initListenders();
+		
+		function initListenders() {
+			window.addEventListener('resize', doRefresh);
+			$('body').on('webkitAnimationEnd animationend', 'path', function () {
+				var svgEle = $(this).parent();
+				var endEl = $($(svgEle).attr('end'));
+				endEl.removeClass('tech-hide').addClass('slide-show');
+			})
+		}
+		
+		function refreshlinesHandler() {
+			if (lineArray) {
+				for (var line of lineArray) {
+					if (line) {
+						line.refresh();
+					}
+				}
+			}
+		}
+		
+		function doRefresh() {
+			if (bonceTimer) {
+				clearTimeout(bonceTimer);
+			}
+			bonceTimer = setTimeout(function () {
+				refreshlinesHandler();
+				clearTimeout(bonceTimer);
+				bonceTimer = null;
+			}, timeDuration);
+		}
+		
+		function createLines() {
+			for (let i=0;i<10;i++) {
+				var line1 = new Line('.li-item-' + i, '.data-node-' + i);
+				lineArray.push(line1);
+			}
+		}
+	</script>
+</html>

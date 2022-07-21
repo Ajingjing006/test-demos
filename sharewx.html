@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<link href="css/share.css" rel="stylesheet" />
+		<style>
+			body {
+				margin: 0;
+			}
+			button {
+				width: 100px;
+				height: 80px;
+				border: 1px solid pink;
+				border-radius: 20px;
+				outline: none;
+				margin: 30px 0 0 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<button onclick="javscript:share.open()">open share</button>
+	</body>
+	<script src="js/wx-share-component.js"></script>
+	<script>
+		var share = new ShareComponent({});
+	</script>
+</html>

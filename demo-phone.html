@@ -1,0 +1,100 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8">
+        <title>CFCA 加密键盘</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <link rel="stylesheet" type="text/css" href="https://paymenttest.bankcomm.com/content/dam/phone/common-keyboard/css/common-3.0.css">
+        <!-- 因为部分后台内网电脑无权限访问https://creditcard.bankcomm.com，开发过程中可引用测试环境的css文件调试 -->
+        <!-- keyborad.css中样式适用于下方input-box的DOM结构 如保持一致可引用 -->
+        <link rel="stylesheet" type="text/css" href="https://paymenttest.bankcomm.com/content/dam/phone/common-keyboard/keyboard.css">
+        <!-- 在投产前请分别引用生产路径的css -->
+        <!-- <link rel="stylesheet" type="text/css" href="https://creditcard.bankcomm.com/content/dam/phone/common-keyboard/keyboard.css"></script> -->
+        <link rel="stylesheet" type="text/css" href="https://paymenttest.bankcomm.com/content/dam/phone/common-keyboard/css/demo.css">
+    </head>
+    <body ontouchstart="">
+
+        <header class="page-header"><a class="btn-back" href="javascript:history.go(-1);"></a>
+            <div class="page-title">CFCA 加密键盘</div>
+        </header>
+        <main class="page-content">
+            <div class="input-box">
+                <div class="label">原生键盘</div>
+                <div class="cont">
+                    <input class="normal-input" type="text" placeholder="请输入">
+                    <div class="clear-btn" id="cleart-btn0"></div>
+                </div>
+            </div>
+            <div class="input-box">
+                <div class="label">密码</div>
+                <div class="sipbox-sip"><span class="cursor" id="SIPBox1Cursor"></span>
+                    <input class="sip" id="SIPBox1" placeholder="全键盘">
+                    <div class="clear-btn" id="cleart-btn1"></div>
+                </div>
+            </div>
+            <div class="input-box">
+                <div class="label">确认密码</div>
+                <div class="sipbox-sip"><span class="cursor" id="SIPBox12Cursor"></span>
+                    <input class="sip" id="SIPBox12" placeholder="全键盘2">
+                    <div class="clear-btn" id="cleart-btn12"></div>
+                </div>
+            </div>
+            <div class="action-box">
+                <button class="ui-btn block primary" id="check">比较内容一致性</button>
+            </div>
+            <div class="input-box">
+                <div class="label">身份证</div>
+                <div class="sipbox-sip"><span class="cursor" id="SIPBox2Cursor"></span>
+                    <input class="sip" id="SIPBox2" placeholder="身份证键盘">
+                    <div class="clear-btn" id="cleart-btn2"></div>
+                </div>
+            </div>
+            <div class="input-box">
+                <div class="label">纯数字</div>
+                <div class="sipbox-sip"><span class="cursor" id="SIPBox3Cursor"></span>
+                    <input class="sip" id="SIPBox3" placeholder="数字键盘">
+                    <div class="clear-btn" id="cleart-btn3"></div>
+                </div>
+            </div>
+            <div class="input-box">
+                <div class="label">浮点数</div>
+                <div class="sipbox-sip"><span class="cursor" id="SIPBox4Cursor"></span>
+                    <input class="sip" id="SIPBox4" placeholder="小数点数字键盘">
+                    <div class="clear-btn" id="cleart-btn4"></div>
+                </div>
+            </div>
+            <div class="sipbox-grid div-relative">
+                <div class="grid-sip">
+                    <div class="box a" id="box0"></div>
+                    <div class="box b" id="box1"></div>
+                    <div class="box c" id="box2"></div>
+                    <div class="box d" id="box3"></div>
+                    <div class="box e" id="box4"></div>
+                    <div class="box f" id="box5"></div>
+                </div>
+                <input class="sip child" id="SIPBox5" type="text" readonly>
+            </div><br>
+            <div class="input-box">
+                <div class="label">密码</div>
+                <div class="sipbox-sip"><span class="cursor" id="SIPBox6Cursor"></span>
+                    <input class="sip" id="SIPBox6" placeholder="数字键盘">
+                    <div class="clear-btn" id="cleart-btn6"></div>
+                </div>
+            </div>
+            <div class="action-box">
+                <button class="ui-btn block primary" id="getvalue">获取输入的密码</button>
+                <div style="margin-top: 20px"></div>
+                <button class="ui-btn block primary" id="getAllvalue">获取全部密码</button>
+            </div>
+        </main>
+        <!-- <script src="js/jquery-3.4.1.js"></script> -->
+        <!-- 因为部分后台内网电脑无权限访问https://creditcard.bankcomm.com，开发过程中可引用测试环境的js文件调试 -->
+        <script src="js/cfcasip.min.transform.js"></script>
+        <!-- 在投产前请分别引用以下路径的js -->
+        <!-- <script src="https://creditcard.bankcomm.com/content/dam/phone/common-keyboard/cfcasip.min.transform.js"></script> -->
+        <script src="js/demo.js"></script>
+    </body>
+</html>

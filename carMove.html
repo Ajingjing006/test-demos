@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+		<title></title>
+		<style>
+			body {
+				padding: 0;
+				margin: 0;
+			}
+			.graph {
+				position: relative;
+				height: 300px;
+				width: 300px;
+				border: 1px solid red;
+			}
+			canvas {
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			#graph1 {
+				transition: left 100ms linear,top 100ms linear, transform 1ms linear;
+			}
+		</style>
+	</head>
+	<body ontouchstart="">
+		<div class="graph">
+			<canvas id="graph1" width="30" height="24">
+				
+			</canvas>
+			<canvas id="graph2" width="300" height="300">
+				
+			</canvas>
+		</div>
+	</body>
+	<script>
+		var drawFlag = false;
+		var points = [];
+		
+		var _i = 0;
+		
+		initListeners();
+		var _t;
+		getCar();
+		function initListeners() {
+			document.querySelector('.graph').addEventListener('mousedown', function (e) {
+				drawFlag = true;
+				points = [];
+				_t = intervalDraw();
+			})
+			document.querySelector('.graph').addEventListener('mouseup', function (e) {
+				drawFlag = false;
+				stopDraw();
+				moveCar();
+			})
+			document.querySelector('.graph').addEventListener('mousemove', function (e) {
+				if (drawFlag) {
+					var point = {
+						x: e.offsetX,
+						y: e.offsetY
+					};
+					if (points.length == 0) {
+						point.z = 0;
+					} else {
+						var prePoint = points[points.length - 1];
+						var t = Math.atan((point.y - prePoint.y)/(point.x - prePoint.x));
+						// t = Math.abs(t);
+						if (t < 0) {
+							t = t + Math.PI;
+						} 
+						point.z = t / Math.PI * 180/ 360;
+					}
+					if (_i++ % 3 == 0) {
+						points.push(point);
+					}
+				}
+			})
+		}
+		
+		function intervalDraw() {
+			return setInterval(function () {
+				drawGraph();
+			}, 10);
+		}
+		
+		function stopDraw() {
+			if(_t) {
+				clearInterval(_t);
+				_t = null;
+			}
+		}
+		
+		function drawGraph() {
+			var ctx = graph2.getContext('2d');
+			ctx.strokeStyle = '#000000';
+			ctx.lineWidth = 4;
+			ctx.lineCap = 'round';
+			ctx.lineJoin = 'round';
+			ctx.clearRect(0, 0, 300, 300);
+			ctx.beginPath();
+			if (points.length) {
+				points.forEach(function(item, index) {
+					if (index == 0) {
+						ctx.moveTo(item.x, item.y);
+					} else {
+						ctx.lineTo(item.x, item.y);
+					}
+				})
+			}
+			ctx.stroke();
+		}
+		
+		function moveCar() {
+			for (let i=0;i<points.length;i++) {
+				(function (index) {
+					setTimeout(function () {
+						let item = points[index];
+						let style = `left: ${item.x}px;top: ${item.y}px;transform: rotate(${item.z}turn);`;
+						graph1.setAttribute('style', style);
+					}, 100 * index)
+				})(i)
+			}
+		}
+		
+		function getCar() {
+			var ctx = graph1.getContext('2d');
+			ctx.strokeStyle = '#ABCD00';
+			ctx.lineWidth = 2;
+			ctx.lineCap = 'round';
+			ctx.lineJoin = 'round';
+			ctx.beginPath();
+			var carPoints = [
+				{
+					x: 0,
+					y: 0
+				},
+				{
+					x: 20,
+					y: 0
+				},
+				{
+					x: 25,
+					y: 10
+				},
+				{
+					x: 20,
+					y: 20
+				},
+				{
+					x: 0,
+					y: 20
+				}
+			]
+			if (carPoints.length) {
+				carPoints.forEach(function(item, index) {
+					if (index == 0) {
+						ctx.moveTo(item.x, item.y);
+					} else {
+						ctx.lineTo(item.x, item.y);
+					}
+				})
+			}
+			ctx.stroke();
+		}
+	</script>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			.div {
+				width: 100px;
+				height: 100px;
+				background: url(img/bill-icon.png)  left top /300px 300px no-repeat #fff;
+			}
+			.div1 {
+				background-origin: padding-box;
+				padding: 20px 0 0;
+			}
+			.div2 {
+				background-origin: border-box;
+				border: 50px solid transparent;
+			}
+			.div3 {
+				background-origin: content-box;
+			}
+			.div4 {
+				background: linear-gradient(-10deg, #31dab3 0%, rgba(100, 100, 40, 0.9) 100%) center center/100% 100%;
+				background-clip: text;
+				-webkit-background-clip: text;
+				color: transparent;
+				font-weight: 700;
+				white-space: pre;
+				quotes: '诗曰：' '';
+			}
+			/* div {
+				width: 100px;
+				height: 100px;
+				border: 1px solid red;
+				background: linear-gradient(180deg, #f00 0%, #0ff 100%) 100px 100px, url(img/bill-icon.png) 100px 100px;
+			} */
+			.table {
+				background: #00FFFF;
+				display: table;
+				width: 300px;
+				height: 40px;
+			}
+			.table-cell {
+				height: 30px;
+				width: 50%;
+				display: table-cell;
+				background: #FFC0CB;
+				outline: 1px solid red;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="div div1"></div>
+		<div class="div div2"></div>
+		<div class="div div3"></div>
+		<div class="div4">
+			<q>
+			每当要结束的时候，
+			我总想再扯点什么。
+			追问癖好源自哪里？
+			远方那里有个孤岛。
+			</q>
+		</div>
+		<div class="table">
+			<div class="table-cell">1</div>
+			<div class="table-cell">2</div>
+		</div>
+	</body>
+</html>

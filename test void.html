@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+		<title></title>
+		<style>
+			img {
+				width: 200px;
+				height: 100px;
+				border: 1px solid red;
+			}
+			.parent {
+				width: 45px;
+				height: 20px;
+				margin-top: 50px;
+				background: green;
+				border-radius: 10px;
+				position: relative;
+				overflow: hidden;
+			}
+			.point {
+				position: relative;
+				height: 20px;
+				width: 45px;
+				background: gray;
+				left: 20px;
+				transition: all 0.2s ease-in-out;
+				display: inline-block;
+			}
+			.point:before {
+				position: absolute;
+				top: 0;
+				left: -20px;
+				right: 0;
+				background: gray;
+				height: 20px;
+				content: '';
+				border-radius: 10px;
+			}
+			.point:after {
+				position: absolute;
+				top: 0;
+				left: -20px;
+				width: 20px;
+				background: white;
+				height: 20px;
+				content: '';
+				border-radius: 50%;
+			}
+			.parent.on .point{
+				left: 100%
+			}
+			.cont {
+				padding: 5px;
+				border-radius: 4px;
+				border: 1px solid pink;
+				display: inline-block;
+				background: rgb(220, 220, 220);
+			}
+			.light {
+				width: 30px;
+				height: 30px;
+				border-radius: 50%;
+				transition: all .4s ease-in-out;
+				display: inline-block;
+				margin: 0 2px;
+			}
+			.green {
+				background: green;
+			}
+			.yellow {
+				background: yellow;
+			}
+			.red {
+				background: red;
+			}
+			.off {
+				opacity: 0.3;
+			}
+		</style>
+	</head>
+	<body>
+<!-- 		<div class="parent">
+			<div class="point"></div>
+		</div> -->
+		<div class="cont">
+			<div class="light green">
+			</div>
+			<div class="light yellow off">
+			</div>
+			<div class="light red off">
+			</div>
+		</div>
+	</body>
+	<script>
+		// var on = true;
+		// var parentEle = document.querySelector('.parent');
+		// var pointEle = document.querySelector('.point');
+		// parentEle.addEventListener('click', function (e) {
+		// 	if (on) {
+		// 		parentEle.classList.add('on');
+		// 	} else {
+		// 		parentEle.classList.remove('on');
+		// 	}
+		// 	on = !on;
+		// })
+		// var o = {
+		// 	valueOf: function () {
+		// 		console.log('valueof'); return {}
+		// 	},
+		// 	toString: function () {
+		// 		console.log('tostring'); return {}
+		// 	}
+		// }
+		// // o * 2;
+		// // o + 'abc';
+		// //o == 'abc' 
+		// String(o)
+		
+// 		var entry = {
+// 		  a: {
+// 			b: {
+// 			  c: {
+// 				dd: 'abcdd'
+// 			  }
+// 			},
+// 			d: {
+// 			  xx: 'adxx'
+// 			},
+// 			e: 'ae'
+// 		  }
+// 		}
+// 
+// 		// 要求转换成如下对象
+// 		  var output = {
+// 		  'a.b.c.dd': 'abcdd',
+// 		  'a.d.xx': 'adxx',
+// 		  'a.e': 'ae'
+// 		}
+// 		
+// 		function transOut(o, pre) {
+// 			var keys = Object.keys(o)
+// 			if (keys.size) {
+// 				var result = {}
+// 				for(let i of keys) {
+// 					result[`pre.${i}`] = transOut(o[i], pre + '.' + i)
+// 				}
+// 				return result
+// 			} else {
+// 				return o.toString()
+// 			}
+// 		}
+// 		console.log(transOut(entry, ''))
+
+		// function c1(){
+		// 	this.p1 = 1;
+		// 	this.p2 = function(){
+		// 		console.log(this.p1);
+		// 	}
+		// } 
+		// var o1 = new c1;
+		// o1.p2();
+
+
+
+		// function c2(){
+		// }
+		// c2.prototype.p1 = 1;
+		// c2.prototype.p2 = function(){
+		// 	console.log(this.p1);
+		// }
+
+		// var o2 = new c2;
+		// o2.p2();
+// function sleep(duration) {
+//     return new Promise(function(resolve, reject) {
+//         setTimeout(resolve,duration);
+//     })
+// }
+// async function foo(){
+//     console.log("a")
+//     await sleep(2000)
+//     console.log("b")
+// }
+// foo()
+
+// function sleep(duration) {
+//     return new Promise(function(resolve, reject) {
+//         setTimeout(resolve,duration);
+//     })
+// }
+// async function foo(name){
+//     await sleep(2000)
+//     console.log(name)
+// }
+// async function foo2(){
+//     await foo("a");
+//     await foo("b");
+// }
+// 
+// foo2();
+
+class LightFn {
+	constructor(){
+		
+	}
+	async run() {
+		// this.light('green');
+        // await this.sleep(3000);
+        // this.light('yellow');
+        // await this.sleep(1000);
+        // this.light('red');
+        // await this.sleep(2000);
+        // this.run();
+        while (true) {
+            this.light('green');
+            await this.sleep(3000);
+            this.light('yellow');
+            await this.sleep(1000);
+            this.light('red');
+            await this.sleep(2000);
+        }
+	}
+	light(val) {
+		['green', 'yellow', 'red'].forEach(function (item, index) {
+			if (val == item) {
+				document.querySelector('.' + item).classList.toggle('off', false);
+			} else {
+				document.querySelector('.' + item).classList.toggle('off', true);
+			}
+		})
+	}
+	sleep(duration) {
+		return new Promise((resolve, reject)=>{
+			setTimeout(resolve, duration)
+		})
+	}
+}
+let a = new LightFn();
+a.run();
+
+	</script>
+</html>

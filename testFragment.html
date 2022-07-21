@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width" />
+		<title></title>
+		<style>
+			ul {
+				height: 3000px;
+				background: pink;
+			}
+		</style>
+	</head>
+	<body>
+		<ul id="list"></ul>
+		<!-- <video src="resource/movie.mp4" onclick="toggleFullscreen()"></video> -->
+	</body>
+	<script>
+		// function toggleFullscreen() {
+		//   let elem = document.querySelector("video");
+		
+		//   if (!document.fullscreenElement) {
+		//     elem.requestFullscreen().catch(err => {
+		//       alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+		//     });
+		//   } else {
+		//     document.exitFullscreen();
+		//   }
+		// }
+		let t;
+		document.addEventListener('scroll', function () {
+			let _t = performance.now();
+			if (t) {
+				console.log(_t - t);
+			}
+			t = _t;
+		})
+	</script>
+</html>

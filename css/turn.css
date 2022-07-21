@@ -1,0 +1,38 @@
+@charset "utf-8";
+body {
+	padding: 0;
+	margin: 0;
+}
+.book {
+	position: relative;
+	width: 600px;
+	height: 600px;
+	box-shadow: 4px 2px 8px black;
+	margin-top: 100px;
+	pointer-events: none;
+}
+.page {
+	width: 300px;
+	height: 300px;
+	position: absolute;
+	top: 100px;
+	right: 0;
+	outline: 1px solid red;
+	pointer-events: none;
+}
+.un-active {
+	
+}
+#page2 {
+	background: rgba(0, 255,255, .4);
+	top: 0;
+	left: 0;
+}
+.mask-wrap {
+	position: absolute;
+	outline: 2px dashed darkblue;
+	width: 400px;
+	height: 400px;
+	pointer-events: none;
+	/* overflow: hidden; */
+}

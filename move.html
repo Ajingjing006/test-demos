@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width" />
+		<title></title>
+		<style type="text/css">
+			.child {
+				width: 40px;
+				height: 40px;
+				background: pink;
+				border-radius: 50%;
+				animation: move 1s linear infinite;
+			}
+			@keyframes move {
+				100% {
+					transform: translate(300%, 0);
+				}
+			}
+			.child1 {
+				animation-direction: alternate;
+			}
+			.child2 {
+				animation-direction: alternate-reverse;
+			}
+			.child3 {
+				animation-direction: normal;
+			}
+			.child4 {
+				animation-direction: reverse;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="parent">
+			<div class="child child1"></div>
+			<div class="child child2"></div>
+			<div class="child child3"></div>
+			<div class="child child4"></div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+		<title>绘制海报</title>
+		<style>
+			body {
+				padding: 0;
+				margin: 0;
+				background: rgba(0, 0, 0, .3);
+			}
+
+			#canvas {
+				border: 1px solid red;
+				width: 100%;
+				opacity: 0;
+				visibility: hidden;
+				display: none;
+			}
+
+			img {
+				width: 100%;
+			}
+
+			#qrcode {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas" width="750"></canvas>
+		<img id="save">
+		<img id="qrcode" src="./img/img_6.png">
+	</body>
+	<script src="./js/jquery-3.4.0.js"></script>
+	<script>
+		var imageData;
+
+		function PosterDraw(options) {
+			var _y = 0;
+			var _textPositionStartY = 0; //底部文本区域的初始纵坐标
+			var _textPositionEndY = 0; //底部文本区域的结束纵坐标
+			var minTextContainerHeight = 300; //底部文本内容最小高度
+			var textMaxHeight = 800; //文本区域极限高度
+			var qrImg = options.QRimg;
+			var textRightSpace = 4; //文字和qrcode之间的空间
+			var textLeftSpace = 20; //文字左边的空间
+			var textMaxWidth = 750 - qrImg.width - qrImg.right - textRightSpace - textLeftSpace;
+			draw(options);
+
+			//获取画布
+			function getCanvas() {
+				return document.querySelector('#canvas');
+			}
+
+			//开始绘制
+			function draw(options) {
+				//先画海报图
+				drawImage(options, function(options) {
+					//画文本
+					fillText(options.text);
+					//画二维码
+					drawQRcode(options.QRimg);
+					//调整整体画布的大小
+					clipRect(options);
+					//画完回调
+					options.doneCallBack(getCanvas());
+				});
+			}
+
+			//画布进行裁切
+			function clipRect(options) {
+				var canvas = getCanvas();
+				var context = canvas.getContext('2d');
+				var _tempData = context.getImageData(0, 0, canvas.width, canvas.height);
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				canvas.height = _y;
+				context.putImageData(addBGColor(_tempData, options.bgColor), 0, 0);
+			}
+
+			//绘制图片
+			function drawImage(options, callBack) {
+				var ctx = getCanvas().getContext('2d'); //画布上下文
+				loadImage(options.imgUrl, ({
+					image,
+					height,
+					width
+				}) => {
+					_y += height;
+					ctx.drawImage(image, 0, 0, width, height);
+					callBack(options);
+				});
+			}
+
+			//加载图片
+			function loadImage(url, callBack) {
+				var image = $('<img>');
+				image[0].onload = function() {
+					var canvas = getCanvas();
+					var w = canvas.width;
+					var pic = image[0];
+					canvas.height = pic.height + textMaxHeight; //根据加载过来的海报图适当调整画布高度
+					callBack({
+						image: pic,
+						width: w,
+						height: pic.height * w / pic.width
+					});
+				}
+				image.attr('src', url);
+			}
+
+			//画全部文本信息
+			function fillText(list) {
+				_textPositionStartY = _y; //存储文本内容区域的初始位置
+				var ctx = getCanvas().getContext('2d'); //画布上下文
+				for (var i = 0, l = list.length; i < l; i++) {
+					var item = list[i];
+					ctx.font = item.style;
+					ctx.fillStyle = item.color;
+					fitFillText(ctx, item);
+				}
+				_textPositionEndY = _y; //存储文本内容区域的结束位置
+
+				fixTextVerticalPostion();
+			}
+
+			//调整文本区域纵向位置，使其纵向居中
+			function fixTextVerticalPostion() {
+				var _textHeight = _textPositionEndY - _textPositionStartY;
+				if (_textHeight < minTextContainerHeight) {
+					var canvas = getCanvas();
+					var context = canvas.getContext('2d');
+					var _tempData = context.getImageData(0, _textPositionStartY, canvas.width, _textPositionEndY);
+					context.clearRect(0, _textPositionStartY, canvas.width, _textPositionEndY);
+					context.putImageData(_tempData, 0, _textPositionStartY + 0.5 * (minTextContainerHeight - _textHeight));
+					_textPositionEndY = _textPositionStartY + minTextContainerHeight;
+					_y = _textPositionEndY;
+				}
+			}
+
+			//绘制一条文本【超出部分自动换行】
+			function fitFillText(ctx, data) {
+				var text = data.text;
+				while (text) {
+					var tEvery = getMatchWidthText(text, textMaxWidth);
+					text = text.substr(tEvery.length);
+					_y += data.lineHeight;
+					ctx.fillText(tEvery, textLeftSpace, data.top + _y);
+				}
+				_y += data.top;
+				//测量文字宽，自动换行
+				function getMatchWidthText(_str, maxw) {
+					var measureData = ctx.measureText(_str);
+					var maxWidth = measureData.width;
+					while (maxWidth > maxw) {
+						_str = _str.substr(0, _str.length - 1);
+						maxWidth = ctx.measureText(_str).width;
+					}
+					return _str;
+				}
+			}
+
+			//增加图片的背景色
+			function addBGColor(imageData, color) {
+				for (var i = 0, l = imageData.data.length; i < l; i += 4) {
+					if (imageData.data[i + 3] == 0) {
+						imageData.data[i] = color.r;
+						imageData.data[i + 1] = color.g;
+						imageData.data[i + 2] = color.b;
+						imageData.data[i + 3] = 255;
+					}
+				}
+				return imageData;
+			}
+
+			//画二维码
+			function drawQRcode(data) {
+				var canvas = getCanvas();
+				var ctx = canvas.getContext('2d'); //画布上下文
+				ctx.drawImage(data.image, canvas.width - data.width - data.right, _textPositionStartY + (_textPositionEndY -
+					_textPositionStartY - data.height) * 0.5, data.width, data.height);
+			}
+		}
+
+
+
+		new PosterDraw({
+			imgUrl: "./img/re-bg.png",
+			text: [{
+				text: "hello world！hello world！hello world！hello world！hello world！hello world！hello world！",
+				style: "18px serif",
+				lineHeight: 20,
+				color: "#000000",
+				top: 0
+			}, {
+				text: "中国话总过中国话总过中国话总过中国话总过中国话总过中国话总过中国话总过中国话总过中国话总过中国话总过中国话总过",
+				style: "20px 微软雅黑",
+				lineHeight: 20,
+				color: "#ff00ff",
+				top: 10
+			}],
+			doneCallBack: function(canvas) {
+				var str = canvas.toDataURL("image/png");
+				save.src = str;
+			},
+			bgColor: {
+				r: 255,
+				g: 255,
+				b: 255
+			},
+			QRimg: {
+				image: document.querySelector('#qrcode'),
+				imageData: imageData,
+				width: 180,
+				height: 180,
+				right: 10
+			}
+		});
+	</script>
+</html>

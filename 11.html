@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+		<title>节日贺卡</title>
+		<script src="./js/jquery-3.4.1.js"></script>
+	</head>
+	<body>
+<img src="img/640.gif" style="display: none;" onload="javascript: console.log(123)"/>
+		<img id="test" />
+	</body>
+	<script>
+		var urlStr = 'https://pic2.zhimg.com/v2-61571e73aff301aef9e0193cbf846972_r.jpg?source=1940ef5c';
+
+		function log(...args) {
+			console.log(...args);
+		}
+
+		function getBase64Image(img) {
+			var canvas = document.createElement("canvas");
+			canvas.width = img.width;
+			canvas.height = img.height;
+			var ctx = canvas.getContext("2d");
+			ctx.drawImage(img, 0, 0, img.width, img.height);
+			var dataUrl = canvas.toDataURL();
+			return dataUrl;
+		};
+		var img = new Image();
+		img.setAttribute("crossOrigin", 'Anonymous');
+		img.onload = function() {
+			log('1 = ', getBase64Image(img));
+		}
+		img.src = urlStr;
+
+		var s1 = 'data:application/octet-stream;base64,';
+		var s2 = 'data:image/png;base64,';
+		
+		downFile(urlStr);
+
+		function downFile(src) {
+			var date2 = new Date();
+			let me = this;
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', src);
+			xhr.responseType = 'blob';
+			xhr.onload = function() {
+				var blob = this.response;
+				var fileReader = new FileReader();
+				fileReader.onloadend = function(e) {
+					var result = e.target.result;
+					test.src = s2 + result.split(s1)[1];
+				}
+				fileReader.readAsDataURL(blob);
+			}
+			xhr.send();
+		}
+	</script>
+</html>

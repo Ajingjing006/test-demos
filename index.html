@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title></title>
+		<style>
+			body {
+				padding: 0;
+				margin: 0;
+				position: relative;
+			}
+			.area {
+				min-width: 100px;
+				width: 10px !important;
+				max-width: 50px;
+				height: 30px;
+				background: red;
+			}
+			.img {
+				position: relative;
+				content: url(img/icon3.png);
+			}
+			.content-1 {
+				position: relative;
+			}
+			.content-1:empty {
+				border: 1px dashed pink;
+			}
+			.content-1:after{
+				color: red;
+				content: 'have a good time';
+				height: 30px;
+				display: inline-block;
+			}
+			*:empty {
+				outline: 3px solid red;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="area"></div>
+		<input />
+		<div></div>
+		<span></span>
+		<div><span></span></div>
+		<video src="img/4KHDR.mp4">
+			浏览器不支持video 时显示的内容
+		</video>
+		<canvas>
+			不支持canvas 的时候显示的内容
+		</canvas>
+		<iframe>
+			123
+		</iframe>
+		<img src="img/bill-icon.png" class="img" urc="img/icon3.png"/>
+		<br/>
+		<div class="content-1"></div>
+	</body>
+	<script>
+		
+	</script>
+</html>

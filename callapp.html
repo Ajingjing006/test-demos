@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" src="https://unpkg.com/callapp-lib@3.1.2/dist/index.umd.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+		<script>eruda.init();</script>
+	</head>
+	<body>
+		<h1>Hello7</h1>
+	</body>
+	<script>
+		let  wechatUrl  = 'https://creditcardapp.bankcomm.com/content/dam/phone/ecd/2021/ykxcx/ykxcx0120.html';
+		// wechatUrl = 'http://192.168.43.146:8848/Test1/11.html';
+		
+		const appUrl = 'https://creditcardapp.bankcomm.com';
+		const option = {
+			scheme: {
+				protocol: 'mdb'
+			},
+			intent: {
+				package: 'com.bankcomm.maidanba',
+				scheme: 'mdb',
+			},
+			appstore: wechatUrl,
+			yingyongbao: 'http://a.app.qq.com/o/simple.jsp?pkgname=com.bankcomm.maidanba',
+			fallback: wechatUrl,
+			timeout: 3000,
+			logFunc: function (re) {
+				console.log(re)
+			}
+		};
+		
+		const lib = new CallApp(option);
+
+		lib.open({
+			path: 'com.bankcomm.maidanba',
+			// path: '',
+			param: {
+				code: '0',
+				url: appUrl
+			},
+			callback: function () {
+				// console.log(12312321)
+				window.location.href = wechatUrl;
+			 }
+		});
+	</script>
+</html>

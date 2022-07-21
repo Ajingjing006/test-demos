@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width"/>
+		<title>渐变方式</title>
+		<style>
+			.cont {
+				width: 300px;
+				height: 300px;
+				border-radius: 50%;
+				display: inline-block;
+			}
+			.cont:nth-child(1) {
+				background: linear-gradient(to right, blue 0% , red 100%);
+			}
+			.cont:nth-child(2) {
+				background: radial-gradient(circle at 50%, red, white 10%, green 50%,white 100%)
+			}
+			.cont:nth-child(3) {
+				background: conic-gradient(red, orange, yellow, green, blue);/**1为了去掉明显的开始分界线,可以在最后加上最开始的颜色.如2*/
+				background: conic-gradient(red, orange, yellow, green, blue, red); /**2*/
+			}
+			.border-cont {
+				height: 100px;
+				background: pink;
+				outline-width: 10px;
+				outline-offset: -16px;
+				outline-color: black;
+				outline-style: double;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="cont"></div>
+		<div class="cont"></div>
+		<div class="cont"></div>
+		<div class="border-cont"></div>
+	</body>
+</html>

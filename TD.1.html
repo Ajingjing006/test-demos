@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+    @charset "UTF-8";
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .iframe {
+        width: 400px;
+        height: 400px;
+        background-color: skyblue;
+        position: relative;
+        -webkit-perspective: 900px;
+        perspective: 900px;
+        /* 视角 */
+    }
+
+    .parasol {
+        position: absolute;
+        left: 40%;
+        top: 30%;
+    }
+
+    .parasol .pole {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 150px;
+        border-radius: 2px;
+    }
+
+    .parasol .mask-wrap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200px;
+        height: 200px;
+    }
+
+    .parasol .mask-wrap .mask {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-width: 0 24px 98px;
+        border-style: solid;
+        border-color: transparent transparent currentColor;
+        -webkit-transform-origin: top center;
+        transform-origin: top center;
+        -webkit-transform: translateX(-50%) rotateZ(calc(1deg * var(--deg))) rotateX(-24deg);
+        transform: translateX(-50%) rotateZ(calc(1deg * var(--deg))) rotateX(-24deg);
+    }
+
+    .parasol .mask-wrap .mask:nth-child(1) {
+        --deg: 0;
+    }
+
+    .parasol .mask-wrap .mask:nth-child(2) {
+        --deg: 30;
+    }
+
+    .parasol .mask-wrap .mask:nth-child(3) {
+        --deg: 60;
+    }
+
+    .parasol .mask-wrap .mask:nth-child(4) {
+        --deg: 90;
+    }
+
+    .parasol .mask-wrap .mask:nth-child(5) {
+        --deg: 120;
+    }
+
+    .parasol .mask-wrap .mask:nth-child(6) {
+        --deg: 150;
+    }
+
+    .parasol .mask-wrap .mask:nth-child(7) {
+        --deg: 180;
+    }
+
+    .parasol .mask-wrap .mask:nth-child(8) {
+        --deg: 210;
+    }
+
+    .parasol .mask-wrap .mask:nth-child(9) {
+        --deg: 240;
+    }
+
+    .parasol .mask-wrap .mask:nth-child(10) {
+        --deg: 270;
+    }
+
+    .parasol .mask-wrap .mask:nth-child(11) {
+        --deg: 300;
+    }
+
+    .parasol .mask-wrap .mask:nth-child(12) {
+        --deg: 330;
+    }
+
+    .parasol .mask-wrap .mask:nth-child(13) {
+        --deg: 360;
+    }
+
+    .real {
+        -webkit-transform: rotateX(70deg) rotateY(-15deg);
+        transform: rotateX(70deg) rotateY(-15deg);
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+
+    .real .pole {
+        background-color: gray;
+        -webkit-transform: translateX(-50%) rotateX(-90deg);
+        transform: translateX(-50%) rotateX(-90deg);
+        -webkit-transform-origin: top center;
+        transform-origin: top center;
+    }
+
+    .real .mask-wrap {
+        /* background-color: rgba(0,0,0,.1); */
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        -webkit-animation: rotating 5s linear infinite;
+        animation: rotating 5s linear infinite;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+
+    .real .mask-wrap .mask:nth-child(odd) {
+        color: lightseagreen;
+    }
+
+    .real .mask-wrap .mask:nth-child(even) {
+        color: white;
+    }
+
+    @-webkit-keyframes rotating {
+        0% {
+            -webkit-transform: translate(-50%, -50%) rotateZ(0deg);
+            transform: translate(-50%, -50%) rotateZ(0deg);
+        }
+
+        100% {
+            -webkit-transform: translate(-50%, -50%) rotateZ(360deg);
+            transform: translate(-50%, -50%) rotateZ(360deg);
+        }
+    }
+
+    @keyframes rotating {
+        0% {
+            -webkit-transform: translate(-50%, -50%) rotateZ(0deg);
+            transform: translate(-50%, -50%) rotateZ(0deg);
+        }
+
+        100% {
+            -webkit-transform: translate(-50%, -50%) rotateZ(360deg);
+            transform: translate(-50%, -50%) rotateZ(360deg);
+        }
+    }
+
+    .shadow {
+        --shadow-color: #81a7b6;
+        color: var(--shadow-color);
+        -webkit-transform: translateX(110px) translateZ(-160px);
+        transform: translateX(110px) translateZ(-160px);
+    }
+
+    .shadow .pole {
+        background-color: var(--shadow-color);
+        -webkit-transform: rotateZ(73deg) translate(41px, 15px);
+        transform: rotateZ(73deg) translate(41px, 15px);
+    }
+
+    .shadow .mask-wrap {
+        -webkit-transform: translate(-40px) rotateX(71deg) rotateY(-12deg);
+        transform: translate(-40px) rotateX(71deg) rotateY(-12deg);
+        -webkit-animation: shadowRotating 5s linear infinite;
+        animation: shadowRotating 5s linear infinite;
+    }
+
+    @-webkit-keyframes shadowRotating {
+        0% {
+            -webkit-transform: translate(-40px) rotateX(71deg) rotateY(-12deg) rotateZ(0deg);
+            transform: translate(-40px) rotateX(71deg) rotateY(-12deg) rotateZ(0deg);
+        }
+
+        100% {
+            -webkit-transform: translate(-40px) rotateX(71deg) rotateY(-12deg) rotateZ(360deg);
+            transform: translate(-40px) rotateX(71deg) rotateY(-12deg) rotateZ(360deg);
+        }
+    }
+
+    @keyframes shadowRotating {
+        0% {
+            -webkit-transform: translate(-40px) rotateX(71deg) rotateY(-12deg) rotateZ(0deg);
+            transform: translate(-40px) rotateX(71deg) rotateY(-12deg) rotateZ(0deg);
+        }
+
+        100% {
+            -webkit-transform: translate(-40px) rotateX(71deg) rotateY(-12deg) rotateZ(360deg);
+            transform: translate(-40px) rotateX(71deg) rotateY(-12deg) rotateZ(360deg);
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <div class="iframe">
+        <div class="parasol">
+            <div class="real">
+                <div class="pole"></div>
+                <div class="mask-wrap">
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                </div>
+            </div>
+            <div class="shadow">
+                <div class="pole"></div>
+                <div class="mask-wrap">
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                    <span class="mask"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

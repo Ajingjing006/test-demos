@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width" />
+		<title></title>
+		<style>
+			.wave-cont {
+				margin: 150px;
+				width: 200px;
+				height: 200px;
+				border-radius: 50%;
+				position: relative;
+				border: 1px solid red;
+				overflow: hidden;
+			}
+			.wave {
+				background: #0f7ae4;
+				position: absolute;
+				top: 50%;
+				width: 180%;
+				height: 180%;
+				animation: move-animate 3s linear infinite;
+			}
+			.wave1 {
+				opacity: 0.15;
+				border-radius: 32%;
+				animation-delay: -1s;
+				animation-duration: 3.8s;
+				left: -36%;
+				top: 40%;
+			}
+			.wave2 {
+				opacity: 0.5;
+				border-radius: 45%;
+				animation-delay: -2s;
+				animation-duration: 5s;
+				left: -45%;
+				top: 42%;
+				width: 200%;
+				height: 200%;
+			}
+			.wave3 {
+				opacity: 0.6;
+				border-radius: 41%;
+				left: -47%;
+				top: 41%;
+			}
+			@keyframes move-animate{
+				from{
+					transform: rotate(0deg);
+				}
+				to{
+					transform: rotate(360deg);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wave-cont">
+			<div class="wave wave1"></div>
+			<div class="wave wave2"></div>
+			<div class="wave wave3"></div>
+		</div>
+	</body>
+</html>

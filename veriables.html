@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>css变量测试</title>
+		<style>
+			:root {
+				--redColor: #f00;
+				--redcolor: #ABCDEF;
+			}
+			.div1 {
+				color: var(--redColor)
+			}
+			.div {
+				--redColor: #880;
+			}
+			.div2 {
+				color: var(--redColor)
+			}
+			.div3 {
+				color: var(--redcolor)
+			}
+			input:optional + label {
+				color: green;
+			}
+			input:required + label {
+				color: red
+			}
+			input:out-of-range + label {
+				color: red
+			}
+			input:in-range + label {
+				color: gray
+			}
+			label {
+				position: relative;
+				display: inline-block
+			}
+		</style>
+	</head>
+	<body>
+		<div class="div">
+			<div class="div2"> hello world</div>
+		</div>
+		<div class="div1"> hello world</div>
+		<div class="div3"> hello world</div>
+		<form>
+			<input type="number" required="required"  />
+			<label>label1</label>
+			<input type="number"/>
+			<label>label2</label>
+			<input type="number" max="10" min="3"/>
+			<label>label3</label>
+			<input type="number" max="3" min="3"/>
+			<label>label4</label>
+			<input type="submit" />
+			<label>label5</label>
+		</form>
+	</body>
+</html>

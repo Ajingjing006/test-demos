@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="css/pdfjs/pdfh5.css" />
+		<style>
+			.content {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+		<script src="js/pdfjs/pdf.js"></script>
+		<script src="js/pdfjs/pdf.worker.js"></script>
+		<script src="js/pdfjs/jquery-1.11.3.min.js"></script>
+		<script src="js/pdfjs/pdfh5.js"></script>
+	</head>
+	<body>
+		<div class="content">
+			<div id="demo">
+				
+			</div>
+		</div>
+		<script>
+			var pdfh5 = new Pdfh5('#demo', {
+			  pdfurl: "./files/我们要自学.pdf"
+			});
+		</script>
+	</body>
+</html>

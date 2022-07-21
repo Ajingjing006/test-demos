@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+		<title>测试剪贴板</title>
+		<style>
+			#graph {
+				border: 1px solid red;
+		</style>
+			}
+	</head>
+	<body>
+		<input id="abcd" value="hello hello"/>
+		<button onclick="copy()">点击复制</button>
+	</body>
+	<script>
+		let el1 = document.querySelector('#abcd');
+		function copy() {
+			el1.focus();
+			el1.select();
+			document.execCommand('Copy');
+			output();
+			navigator.clipboard.writeText('heheheda');
+			setTimeout(function() {
+				output();
+			}, 1000);
+		}
+		
+		function output() {
+			navigator.clipboard.readText().then(
+			  clipText => console.log(clipText)
+			);
+		}
+	</script>
+</html>

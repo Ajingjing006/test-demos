@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+		<title>获得灰度图片和负片</title>
+		<style>
+			#sourceImg {
+				visibility: hidden;
+				position: absolute;
+			}
+			#sourceShadow,#huiduImg,#fupianImg {
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<form>
+			<input id="chooseImg" accept="image/*" type="file" capture="camera" style="height: 30px"/>
+		</form>
+		<img id="sourceImg" />
+		<img id="sourceShadow" />
+		
+		<img id="huiduImg" />
+		<img id="fupianImg" />
+	</body>
+	<script>
+		let _URL = window.URL || window.webkitURL;
+		chooseImg.onchange = (e)=>{
+			let file = e.target.files[0];
+			let src = _URL.createObjectURL(file);
+			sourceImg.onload = ()=> {
+				huiduImg.src = huidu(sourceImg);
+				fupianImg.src = huidu(sourceImg, true);
+			}
+			if (typeof sourceImg.src !== 'undefined') {
+				_URL.revokeObjectURL(sourceImg.src)
+			}
+			sourceImg.src = src;
+			sourceShadow.src = src;
+		}
+		
+		function huidu(img, reverse) {
+			let canvas = document.createElement('canvas');
+			let ctx = canvas.getContext('2d');
+			
+			let w = img.width;
+			let h = img.height;
+			canvas.width = w;
+			canvas.height = h;
+			
+			ctx.drawImage(img, 0, 0);
+			
+			let imgData = ctx.getImageData(0,0,w,h);
+			let data = imgData.data;
+			for(let i=0,len = data.length;i<len;i+=4) {
+				let r = data[i];
+				let g = data[i+1];
+				let b = data[i+2];
+				let average = (r + g + b) / 3;
+				if (reverse) {
+					average = 255 - average;
+				}
+				data[i] = data[i+1] = data[i + 2] = average;
+			}
+			ctx.putImageData(imgData, 0, 0);
+			return canvas.toDataURL('image/png', 1);
+		}
+	</script>
+</html>

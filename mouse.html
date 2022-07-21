@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			#abc {
+				border: 1px solid red;
+				margin: 20px;
+				height: 300px;
+			}
+		</style>
+		
+	</head>
+	<body>
+		<div id="abc"></div>
+	</body>
+	<script>
+		document.querySelector('#abc').addEventListener('click', function (e) {
+			console.log(e.clientX, e.screenX, e.offsetX);
+		})
+	</script>
+</html>

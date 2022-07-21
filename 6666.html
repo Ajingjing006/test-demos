@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>H5ToAppOrMiniProgram</title>
+		<!-- <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script> -->
+		<!-- <script src="https://res2.wx.qq.com/open/js/jweixin-1.6.0.js"></script> -->
+		<!-- <script src="${base}/assets/js/libs/jquery-1.8.3.min.js"></script> -->
+		<script src="js/jquery-3.4.0.js"></script>
+		<script src="js/jweixin-1.6.0.js"></script>
+		<style>
+			/* button,
+			.btn {
+				display: flex;
+				width: 50%;
+				margin-top: 10px;
+				border-radius: 5px;
+				height: 40px;
+			} */
+			#launch-btnApp {
+				display: block;
+				width: 200px;
+				height: 100px;
+				position: fixed;
+				top: 20px;
+				left: 30px;
+				background-color: pink;
+			}
+		</style>
+		<script>
+			// var link = encodeURIComponent(window.location.href); //当前页面的url
+			// var shareTitle = '测试微信分享标题',
+			// 	shareDesc = '测试微信分享描述',
+			// 	sharePageUrl = window.location.href,
+			// 	shareImgUrl = 'https://creditcard.bankcomm.com/content/dam/phone/faka/mgm/account/image/mgmApp300.jpg';
+			// $.ajax({
+			// 	url: 'https://creditcardapp.bankcomm.com/rccd/wechat/config.json?url=' + link,
+			// 	dataType: "jsonp",
+			// 	jsonp: "callback",
+			// 	async: false,
+			// 	success: function(data) {
+			// 		data.jsApiList = ['onMenuShareAppMessage', 'onMenuShareTimeline'];
+			// 		data.debug = true;
+			// 		data.openTagList = ['wx-open-launch-weapp', 'wx-open-launch-app'];
+			// 		wx.config(data);
+			// 		wx.ready(function() { //需在用户可能点击分享按钮前就先调用
+			// 			wx.onMenuShareAppMessage({ //分享给朋友
+			// 				title: shareTitle, // 分享标题
+			// 				desc: shareDesc, // 分享描述
+			// 				link: sharePageUrl, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			// 				imgUrl: shareImgUrl // 分享图标
+			// 			}, function(res) {
+			// 				//这里是回调函数
+			// 				wx.closeWindow()
+			// 			});
+			// 			wx.onMenuShareTimeline({ //分享到朋友圈
+			// 				title: shareTitle, // 分享标题
+			// 				link: sharePageUrl, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			// 				imgUrl: shareImgUrl // 分享图标
+			// 			}, function(res) {
+			// 				//这里是回调函数
+			// 				wx.closeWindow()
+			// 			});
+			// 		});
+			// 	},
+			// 	error: function(e) {
+
+			// 	}
+			// })
+		</script>
+	</head>
+	<body>
+		<!-- 
+		<wx-open-launch-weapp id="launch-btn" username="gh_97955ab0d8d3" path="pages/index/index">
+			<template>
+				<button class="btn">打开小程序</button>
+			</template>
+		</wx-open-launch-weapp>
+
+
+		<br>
+		<br> -->
+
+		<wx-open-launch-app id="launch-btnApp" appid="wxdb2295f552d546a5"
+			extinfo="mdb://com.bankcomm.maidanba/access?code=0&url=https://creditcardapp.bankcomm.com/member/member/limit/manage/index.html">
+			<template type="text/wxtag-template">
+				<button class="btn">App内查看</button>
+			</template>
+		</wx-open-launch-app>
+		<wx-open-launch-app id="launch-btn" appid="wxdb2295f552d546a5" extinfo="mdb://com.bankcomm.maidanba/access?code=0&url=https://creditcardapp.bankcomm.com/member/member/limit/manage/index.html">
+			<script type="text/wxtag-template">
+				<style>.btn { padding: 12px }</style>
+		    <button class="btn">App内查看</button>
+		  </script>
+		</wx-open-launch-app>
+		<script>
+			var btn = document.getElementById('launch-btn');
+			btn.addEventListener('launch', function(e) {
+				console.log('success');
+			});
+			btn.addEventListener('error', function(e) {
+				console.log('fail', e.detail);
+			});
+		</script>
+
+
+		<!-- 
+		
+
+		<br>
+		<br>
+
+		<a href=" ">
+			<button>旧唤醒至买单吧</button>
+		</a>
+
+		<br>
+		<br> -->
+
+		<!-- <a href="weixin://dl/business/?ticket=l7b6a485c3348a858cd8be0a4c858774e">
+			<button>打开小程序</button>
+		</a> -->
+		<script>
+			var btn = document.getElementById('launch-btnApp');
+			btn.addEventListener('launch', function(e) {
+				alert('success: ' + e);
+			});
+			btn.addEventListener('error', function(e) {
+				alert('fail: ' + e);
+			});
+		</script>
+	</body>
+</html>

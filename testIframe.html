@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			iframe {
+				
+			}
+			.abc {
+				width: 300px;
+				height: 100px;
+				position: relative;
+				outline: 1px solid gray;
+			}
+			.a {
+				width: 120px;
+				height: 30px;
+				outline: 1px solid red;
+				display: inline-block;
+			}
+			.b {
+				width: 120px;
+				height: 30px;
+				outline: 1px solid red;
+				display: inline-block;
+				float: right;
+			}
+			
+			.cont {
+				width: 511px;
+				font-size: 0;
+				line-height: 0;
+				height: 200px;
+				border: 1px solid red;
+				background: #000000;
+				position: relative;
+			}
+			.child {
+				height: 100%;
+				display: inline-block;
+				animation: progress 2s ease-in-out ;
+			}
+			.child1 {
+				width: 50%;
+				background: #00FFFF;
+			}
+			.child2 {
+				width: 50%;
+				background: pink;
+				float: right;
+			}
+			@keyframes progress{
+				from{
+					width: 0;
+				}
+				to{
+					width: 50%;
+				}
+			}
+		</style>
+		<script>
+			// document.querySelector('#btn').onclick = function () {
+			// 	
+			// }
+		</script>
+	</head>
+	<body>
+		<button id="btn">
+			事件测试
+		</button>
+		<iframe src="./1.html"></iframe>
+		
+		<div class="abc">
+			<div class="a"></div>
+			<div class="a"></div>
+			<div class="a"></div>
+			<div class="a"></div>
+			<div class="a"></div>
+			<div class="b"></div>
+		</div>
+		<div class="cont">
+			<div class="child child1"></div>
+			<div class="child child2"></div>
+		</div>
+	</body>
+</html>

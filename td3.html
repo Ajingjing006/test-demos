@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			body {
+				width: 300px;
+			}
+			.parent {
+				width: 100px;
+				height: 130px;
+				text-align: center;
+				transition: transform .8s ease-in;
+				transform-style: preserve-3d;
+				position: relative;
+				display: inline-block;
+				margin-bottom: 10px;
+			}
+			
+			.child {
+				width: 100%;
+				height: 100%;
+			}
+			.child1 {
+				transform: rotateY(180deg);
+				backface-visibility: hidden;
+			}
+			.child2 {
+				position: absolute;
+				top: 0;
+				left: 0;
+				background: #008000;
+				backface-visibility: hidden;
+			}
+			.scale-n {
+				transform: rotateY(180deg);
+			}
+			.mask {
+				position: fixed;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				display: none;
+			}
+			.show {
+				display: block;
+			}
+			.bring-to-top {
+				z-index: 1;
+			}
+			.parent:nth-child(1).scale-m{
+				transform: rotateY(180deg) scale(1.5) translate3d(-20px, 30px, 0);
+			}
+			.parent:nth-child(2).scale-m{
+				transform: rotateY(180deg) scale(1.5) translate3d(30px, 30px, 0);
+			}
+			.parent:nth-child(3).scale-m{
+				transform: rotateY(180deg) scale(1.5) translate3d(-20px, -30px, 0);
+			}
+			.parent:nth-child(4).scale-m{
+				transform: rotateY(180deg) scale(1.5) translate3d(30px, -30px, 0);
+			}
+			.innerhtml {
+				position: relative;
+				height: 200px;
+				background: url(img/bill-icon.png) no-repeat;
+				background-size: 100% auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="parent">
+			<div class="child child1">
+				<div class="innerhtml">1</div>
+			</div>
+			<div class="child child2">
+				2
+			</div>
+		</div>
+		<div class="parent">
+			<div class="child child1">
+				1
+			</div>
+			<div class="child child2">
+				2
+			</div>
+		</div>
+		<div class="parent">
+			<div class="child child1">
+				1
+			</div>
+			<div class="child child2">
+				2
+			</div>
+		</div>
+		<div class="parent">
+			<div class="child child1">
+				1
+			</div>
+			<div class="child child2">
+				2
+			</div>
+		</div>
+		<div class="mask"></div>
+	</body>
+	<script>
+		var mask = document.querySelector('.mask');
+		var parents = document.querySelectorAll('.parent');
+		
+		initListeners();
+		
+		function showMask() {
+			mask.classList.add('show');
+		}
+		function hideMask() {
+			mask.classList.remove('show');
+		}
+		function initListeners() {
+			parents.forEach((item, index)=>{
+				item.addEventListener('click', function (e) {
+					var classList = item.classList;
+					if (!(classList.contains('scale-m') || classList.contains('scale-n'))) {
+						item.classList.add('scale-m');
+						bringElementToFront(item);
+						showMask();
+					} else if (classList.contains('scale-m')){
+						item.classList.add('scale-n');
+						item.classList.remove('scale-m');
+						hideMask();
+						(function(item) {
+							setTimeout(function() {
+								changebackPostion(item)
+							}, 1000);
+						})(item)
+					}
+				})
+			})
+			
+			
+			mask.addEventListener('touchstart', function (e) {
+				e.stopImmediatePropagation();
+				e.preventDefault();
+			})
+		}
+		function bringElementToFront(el) {
+			el.classList.add('bring-to-top');
+		}
+		function changebackPostion(el) {
+			el.classList.remove('bring-to-top');
+		}
+	</script>
+</html>

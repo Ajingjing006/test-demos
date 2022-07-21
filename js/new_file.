@@ -1,0 +1,30 @@
+//位置1
+var a = 1;
+//位置2
+if(true){
+  //位置3
+  a = 2;
+  console.log(a,window.a);
+  //位置4
+  function a(){};
+  a = 1000;
+  //位置99
+  function a(x){};
+  //位置5
+  a = 3;
+  //位置6
+}
+//位置7
+
+
+
+var a = 1;
+if(true){
+  a = 2;
+console.log(window);
+  console.log(a,window.a);  // 2 1
+  function a(){}; 
+  a = 3;
+  console.log(a,window.a) // 3 2
+}
+console.log(a) //2

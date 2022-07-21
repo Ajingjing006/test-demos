@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+		<title></title>
+		<style>
+			.parent {
+				width: 200px;
+				background: black;
+				height: 80px;
+				overflow: hidden;
+			}
+			.child {
+				width: 260px;
+				background: pink;
+				height: 70px;
+				white-space: nowrap;
+				margin-left: 0;
+			}
+			.animate {
+				transition: margin-left 300ms linear;
+			}
+		</style>
+		<script src="js/jquery-3.4.1.js"></script>
+	</head>
+	<body>
+		<div class="parent">
+			<div class="child">kjfkladjf;eajmf;lmadf;ake' ke'aslf'adlf'adlf'ad</div>
+		</div>
+	</body>
+	<script>
+		var c = 0;
+		var old = 0;
+		$('.child').on('touchmove', function (e) {
+			c = e.originalEvent.changedTouches[0].pageX;
+			var move = c - old;
+			old = c;
+			var _left = $('.child').css('margin-left').split('px')[0];
+			$('.child').css('margin-left', parseFloat(_left) + move + 'px');
+		})
+		$('.child').on('touchstart', function (e) {
+			old = e.originalEvent.changedTouches[0].pageX;
+		})
+		$('.child').on('touchend', function (e) {
+			
+			var mg_left = parseFloat($('.child').css('margin-left').split('px')[0]);
+			$(this).addClass('animate');
+			if (Math.abs(mg_left) > 40) {
+				$('.child').css('margin-left', '-160px');
+			} else {
+				$('.child').css('margin-left', '0px');
+			}
+			setTimeout(function () {
+				$('.child').removeClass('animate');
+			}, 300);
+		})
+	</script>
+</html>

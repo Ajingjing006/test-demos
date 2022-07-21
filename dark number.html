@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>H</title>
+		<style>
+			:root {
+				--scale: 1.8;
+			}
+			body {
+				padding: 0;
+				margin: 0;
+				background: #000;
+				color: #29880a;
+				font-size: 100px;
+				font-family: fantasy;
+			}
+			.box {
+				position: absolute;
+				top: 50%;
+				margin-top: -75px;
+				left: 50%;
+				margin-left: -75px;
+				width: 150px;
+				height: 150px;
+				border-radius: 50%;
+				--per: 60%;
+				background: radial-gradient(ellipse farthest-corner at 50% 50% , #00ffff00 0%, rgba(0, 0, 255, 0) var(--per), rgba(255,215,0,1) 80%);
+				animation: sunshine 1s linear infinite reverse;
+			}
+			.box-0 {
+				position: absolute;
+				top: 50%;
+				margin-top: -75px;
+				left: 50%;
+				margin-left: -75px;
+				width: 150px;
+				height: 150px;
+				border-radius: 50%;
+				--per: 60%;
+				background: radial-gradient(ellipse farthest-corner at 50% 50% , #00ffff00 0%, rgba(0, 0, 255, 0) var(--per), rgba(255,215,0,1) 80%);
+				animation: sunshine-0 2s linear infinite alternate-reverse;
+			}
+			.box2 {
+				animation-delay: 90ms;
+			}
+			.box3 {
+				animation-delay: 180ms;
+			}
+			.box4 {
+				animation-delay: 270ms;
+			}
+			.box5 {
+				animation-delay: 360ms;
+			}
+			.box6 {
+				animation-delay: 450ms;
+			}
+			.box-border {
+				position: absolute;
+				top: 50%;
+				margin-top: -75px;
+				left: 50%;
+				margin-left: -75px;
+				width: 150px;
+				height: 150px;
+				border-radius: 50%;
+				--per: 60%;
+				background: radial-gradient(ellipse farthest-corner at 50% 50% , transparent 0%, rgba(255,215,0, .1) var(--per), rgba(255,215,0,1) 100%);
+				animation: blingbling .5s linear infinite alternate-reverse;
+				transform: scale(var(--scale));
+			}
+			.cont {
+				position: fixed;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+			}
+			.center-node {
+				position: absolute;
+				width: 20px;
+				height: 20px;
+				top: 50%;
+				left: 50%;
+				border: 2px double #fff;
+				animation: rotate-animation 1s linear infinite;
+				margin: -10px auto auto -10px;
+			}
+			@keyframes rotate-animation{
+				from{
+					transform: rotate(0turn);
+				}
+				to{
+					transform: rotate(3turn);
+				}
+			}
+			@keyframes sunshine{
+				from{
+					opacity: 1;
+					transform: scale(.5);
+					transform-origin: center center;
+				}
+				to{
+					opacity: 0;
+					transform: scale(1.6);
+					transform-origin: center center;
+				}
+			}
+			@keyframes sunshine-0{
+				from{
+					opacity: 1;
+					transform: scale(1.2);
+					transform-origin: center center;
+				}
+				to{
+					opacity: 0;
+					transform: scale(1.4);
+					transform-origin: center center;
+				}
+			}
+			@keyframes blingbling{
+				from{
+					opacity: 1;
+				}
+				to{
+					opacity: .7;
+				}
+			}
+			.flash-box {
+				top: 10%;
+				left: 10%;
+				position: absolute;
+				animation: moves 10s linear infinite;
+				animation-fill-mode: forwards;
+			}
+			@keyframes moves{
+				0% {
+					top: 15%;
+					left: 15%;
+				}
+				25% {
+					top: 15%;
+					left: 80%;
+				}
+				50% {
+					top: 80%;
+					left: 80%;
+				}
+				75% {
+					top: 80%;
+					left: 15%;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="cont">
+			<div class="flash-box">
+				<div class="center-node"></div>
+				<div class="box">
+					
+				</div>
+				<div class="box box2">
+					
+				</div>
+				<div class="box box3">
+					
+				</div>
+				<div class="box box4">
+					
+				</div>
+				<div class="box box5">
+					
+				</div>
+				<div class="box box6">
+					
+				</div>
+				<div class="box-0">
+					
+				</div>
+				<div class="box-0 box2">
+					
+				</div>
+				<div class="box-0 box3">
+					
+				</div>
+				<div class="box-0 box4">
+					
+				</div>
+				<div class="box-border">
+					
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

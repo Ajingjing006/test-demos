@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="module">
+		import {
+			getType
+		} from './js/util/tool.js';
+
+		function* fn() {
+			yield 1;
+			yield 2;
+			yield 3;
+			yield 4;
+			yield fetch('./1.html', {
+				method: 'GET', // *GET, POST, PUT, DELETE, etc.
+				mode: 'cors', // no-cors, *cors, same-origin})
+			})
+			return {ff: 9999};
+		}
+		var f = fn();
+		console.log(f, f.return());
+		var val = f.next();
+		while (!val.done) {
+			if (getType(val.value) == 'promise') {
+				val.value.then((res)=>{
+					res.text().then(text=>{
+						console.log('123', text);
+					})
+				})
+			} else {
+				console.log(val.value)
+			}
+			val = f.next();
+		}
+	</script>
+</html>

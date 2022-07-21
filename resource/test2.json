@@ -1,0 +1,238 @@
+{
+	"returnCode": "000000",
+	"returnMsg": "调用服务成功",
+	"data": {
+		"productId": 27003,
+		"channel": "COMMON",
+		"totalStock": 45,
+		"attrList": [{
+				"attrName": "颜色",
+				"sortNo": 1
+				 
+				]
+			},
+			{
+				"attrName": "尺寸",
+				"sortNo": 2,
+				"attrValue": [{
+						"attrValueId": 333,
+						"attrValue": "40cm（约3.4g）",
+						"imagePath": "",
+						"compressedImagePath": "",
+						"sortNo": 1
+					},
+					{
+						"attrValueId": 444,
+						"attrValue": "45cm（约3.9g）",
+						"imagePath": "",
+						"compressedImagePath": "",
+						"sortNo": 2
+					}
+				]
+			},
+			{
+				"attrName": "人群",
+				"sortNo": 2,
+				"attrValue": [{
+						"attrValueId": 555,
+						"attrValue": "40cm（约3.4g）",
+						"imagePath": "",
+						"compressedImagePath": "",
+						"sortNo": 1
+					},
+					{
+						"attrValueId": 666,
+						"attrValue": "45cm（约3.9g）",
+						"imagePath": "",
+						"compressedImagePath": "",
+						"sortNo": 2
+					}
+				]
+			}
+		],
+		"skuProdList": [{
+				"skuId": 63864,
+				"actSkuId": 63864,
+				"stock": 123,
+				"limitNum": 1,
+				"buyAbleNum": "",
+				"cashPrice": 1899,
+				"score": 1000,
+				"startTime": "20200714000000",
+				"endTime": "20200714000000",
+				"stageId": "",
+				"actId": "",
+				"saleAttrList": [{
+						"attrValueId": 111
+					},
+					{
+						"attrValueId": 333
+					},
+					{
+						"attrValueId": 555
+					}
+				]
+			},{
+				"skuId": 63864,
+				"actSkuId": 63864,
+				"stock": 123,
+				"limitNum": 1,
+				"buyAbleNum": "",
+				"cashPrice": 1899,
+				"score": 1000,
+				"startTime": "20200714000000",
+				"endTime": "20200714000000",
+				"stageId": "",
+				"actId": "",
+				"saleAttrList": [{
+						"attrValueId": 111
+					},
+					{
+						"attrValueId": 333
+					},
+					{
+						"attrValueId": 666
+					}
+				]
+			},
+			{
+				"skuId": 63864,
+				"actSkuId": 63864,
+				"stock": 456,
+				"limitNum": 1,
+				"buyAbleNum": "",
+				"cashPrice": 1899,
+				"score": 1000,
+				"startTime": "20200714000000",
+				"endTime": "20200714000000",
+				"stageId": "",
+				"actId": "",
+				"saleAttrList": [{
+						"attrValueId": 111
+					},
+					{
+						"attrValueId": 444
+					},
+					{
+						"attrValueId": 555
+					}
+				]
+			},
+			{
+				"skuId": 63864,
+				"actSkuId": 63864,
+				"stock": 456,
+				"limitNum": 1,
+				"buyAbleNum": "",
+				"cashPrice": 1899,
+				"score": 1000,
+				"startTime": "20200714000000",
+				"endTime": "20200714000000",
+				"stageId": "",
+				"actId": "",
+				"saleAttrList": [{
+						"attrValueId": 111
+					},
+					{
+						"attrValueId": 444
+					},
+					{
+						"attrValueId": 666
+					}
+				]
+			}, 
+			{
+				"skuId": 63864,
+				"actSkuId": 63864,
+				"stock": 789,
+				"limitNum": 1,
+				"buyAbleNum": "",
+				"cashPrice": 1899,
+				"score": 1000,
+				"startTime": "20200714000000",
+				"endTime": "20200714000000",
+				"stageId": "",
+				"actId": "",
+				"saleAttrList": [{
+						"attrValueId": 222
+					},
+					{
+						"attrValueId": 333
+					},
+					{
+						"attrValueId": 555
+					}
+				]
+			}, 
+			{
+				"skuId": 63864,
+				"actSkuId": 63864,
+				"stock": 789,
+				"limitNum": 1,
+				"buyAbleNum": "",
+				"cashPrice": 1899,
+				"score": 1000,
+				"startTime": "20200714000000",
+				"endTime": "20200714000000",
+				"stageId": "",
+				"actId": "",
+				"saleAttrList": [{
+						"attrValueId": 222
+					},
+					{
+						"attrValueId": 333
+					},
+					{
+						"attrValueId": 666
+					}
+				]
+			}, 
+			{
+				"skuId": 63864,
+				"actSkuId": 63864,
+				"stock": 111,
+				"limitNum": 1,
+				"buyAbleNum": "",
+				"cashPrice": 1899,
+				"score": 1000,
+				"startTime": "20200714000000",
+				"endTime": "20200714000000",
+				"stageId": "",
+				"actId": "",
+				"saleAttrList": [{
+						"attrValueId": 222
+					},
+					{
+						"attrValueId": 444
+					},
+					{
+						"attrValueId": 555
+					}
+				]
+			}, 
+			{
+				"skuId": 63864,
+				"actSkuId": 63864,
+				"stock": 111,
+				"limitNum": 1,
+				"buyAbleNum": "",
+				"cashPrice": 1899,
+				"score": 1000,
+				"startTime": "20200714000000",
+				"endTime": "20200714000000",
+				"stageId": "",
+				"actId": "",
+				"saleAttrList": [{
+						"attrValueId": 222
+					},
+					{
+						"attrValueId": 444
+					},
+					{
+						"attrValueId": 666
+					}
+				]
+			}
+		]
+	}
+}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+        <title>绘制海报</title>
+        <style>
+            body {
+                padding: 0;
+                margin: 0;
+            }
+
+            #canvas {
+                border: 1px solid red;
+            }
+			.abc {
+				/* background: red; */
+				width: 200px;
+				height: 300px;
+			}
+			.abc:hover {
+				background: green;
+			}
+        </style>
+    </head>
+    <body>
+		<!-- <div id="abc" style="position: relative; display: inline-block;border: 1px soild blue;">
+			<button type="button" disabled title="有功能，但是被禁用状态">原始按钮</button>
+			<button type="button" title="没特殊功能，只用来触发提示" style="position: absolute;top: 0;left: 0;width: 100%; height: 100%; opacity: 0;">新按钮</button>
+		</div>
+		
+		 -->
+		 <form action="https://www.baidu.ccc" method="post" id="abcd">
+		 	<input type="submit" value=""/>
+		 </form>
+		 <input name="hello" form="abcd"/>
+		 <input name="hello2" form="a"/>
+		 
+		 <input id="hello3" form="abcd"/>
+		 
+        <canvas id="canvas" width="375" height="800"></canvas>
+    </body>
+	<script>
+	// abc.addEventListener('mouseover', function () {
+	// 	console.log('123')
+	// })
+	// abc.addEventListener('click', function () {
+	// 	console.log('click')
+	// })
+	
+	function* testFn() {
+		yield fetch('./2.html');
+	}
+	
+	setTimeout(()=>{
+		var abc = testFn();
+		abc.next().value.then((res)=>{
+			res.text().then((xx)=>{
+				console.log(xx)
+			})
+		}).catch((err)=>{
+			console.log(111, err)
+		})
+	}, 1000)
+	
+	</script>
+    <!-- <script src="./jquery.min.js"></script> -->
+    <script>
+	
+        function PosterDraw(options) {
+            var _y = 0;
+            draw(options);
+            //获取画布
+            function getCanvas() {
+                return document.querySelector('#canvas');
+            }
+
+            //开始绘制
+            function draw(options) {
+                var w = 375; //画布宽度
+                var h = 500; //画布高度
+                drawImage(options, function(options) {
+                    fillText(options.text);
+                });
+            }
+
+            //绘制图片
+            function drawImage(options, callBack) {
+                var ctx = getCanvas().getContext('2d'); //画布上下文
+                loadImage(options.imgUrl, (image) => {
+                    ctx.drawImage(image, 0, 0, image.width, image.height);
+                    _y += image.height;
+                    callBack(options);
+                });
+            }
+
+            //加载图片
+            function loadImage(url, callBack) {
+                var image = $('<img>');
+                image[0].onload = function() {
+                    callBack(image[0]);
+                }
+                image.attr('src', url);
+            }
+
+            function fillText(list) {
+                var ctx = getCanvas().getContext('2d'); //画布上下文
+                for (var i = 0, l = list.length; i < l; i++) {
+                    var item = list[i];
+                    ctx.font = item.style;
+                    ctx.fillStyle = item.color;
+                    fitFillText(ctx, item);
+                }
+            }
+
+            function fitFillText(ctx, data) {
+                var text = data.text;
+                while (text) {
+                    var tEvery = getMatchWidthText(text, data.maxWidth);
+                    text = text.substr(tEvery.length);
+                    _y += data.lineHeight;
+                    ctx.fillText(tEvery, data.x, data.y + _y);
+                }
+
+                function getMatchWidthText(_str, maxw) {
+                    var measureData = ctx.measureText(_str);
+                    var maxWidth = measureData.width;
+                    while (maxWidth > maxw) {
+                        _str = _str.substr(0, _str.length - 1);
+                        maxWidth = ctx.measureText(_str).width;
+                    }
+                    return _str;
+                }
+            }
+        }
+
+        // new PosterDraw({
+        //     imgUrl: "https://himg.bdimg.com/sys/portrait/item/wise.1.fd1f3d3f.7ckO1gSJmFFcsFPsKARomQ.jpg?time=11230",
+        //     text: [{
+        //         text: "hello world！hello world！hello world！hello world！hello world！hello world！hello world！",
+        //         style: "18px serif",
+        //         lineHeight: 20,
+        //         maxWidth: 200,
+        //         color: "#000000",
+        //         x: 100,
+        //         y: 0
+        //     },{
+        //         text: "中国话总过中国话总过中国话总过中国话总过中国话总过中国话总过中国话总过中国话总过中国话总过中国话总过中国话总过",
+        //         style: "20px 微软雅黑",
+        //         lineHeight: 20,
+        //         maxWidth: 300,
+        //         color: "#ff00ff",
+        //         x: 0,
+        //         y: 0
+        //     }]
+        // });
+    </script>
+</html>

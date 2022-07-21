@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>加载图片</title>
+		<style>
+			body {
+				padding: 0;
+				margin: 0;
+			}
+			.main-content {
+				white-space: nowrap;
+				line-height: 0;
+				font-size: 0;
+			}
+			img {
+				min-height: 30px;
+				border: 1px solid red;
+				width: 100%;
+				display: block;
+			}
+			.list {
+				display: inline-block;
+				width: 50%;
+				white-space: break-spaces;
+			}
+			.bottom-line-position {
+				height: 0;
+			}
+			.prod {
+				background: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="main-content">
+			<div class="list list1" >
+				
+			</div>
+			<div class="list list2" >
+				
+			</div>
+		</div>
+	</body>
+	<script src="js/lazyLoad.js"></script>
+	<script>
+		var sourceData = [
+			"./img/bill-icon.png",
+			"./img/rebg.png",
+			"./img/640.gif",
+			"./img/640.gif",
+			"./img/bill-icon.png",
+			"./img/rebg.png",
+			"./img/bill-icon.png",
+			"./img/rebg.png",
+			"./img/bill-icon.png",
+			"./img/rebg.png",
+			"./img/640.gif",
+			"./img/rebg.png",
+			"./img/640.gif",
+			"./img/rebg.png",
+			"./img/bill-icon.png",
+			"./img/rebg.png",
+			"./img/bill-icon.png",
+			"./img/rebg.png",
+			"./img/bill-icon.png",
+			"./img/rebg.png",
+			"./img/640.gif",
+			"./img/640.gif",
+			"./img/bill-icon.png",
+			"./img/rebg.png",
+			"./img/rebg.png",
+			"./img/bill-icon.png",
+			"./img/rebg.png",
+			"./img/640.gif",
+			"./img/640.gif",
+			"./img/bill-icon.png",
+			
+		];
+		sourceData['index'] = 0;
+		var lazyLoadDataFn = new window._listLazyLoad(document.querySelector('.list1'), loadHandler);
+		lazyLoadDataFn.start();
+		
+		var lazyLoadDataFn2 = new window._listLazyLoad(document.querySelector('.list2'), loadHandler);
+		lazyLoadDataFn2.start();
+		
+		function loadHandler(el) {
+			var newEl = loadNewData();
+			if (newEl) {
+				el.insertBefore(newEl, el.lastChild);
+			} else {
+				el.setAttribute('finished', '');
+			}
+		}
+		
+		function loadNewData() {
+			var i = sourceData[sourceData['index']++];
+			if (i) {
+				var newEl = document.createElement('div');
+				newEl.className = 'prod';
+				newEl.innerHTML = `<img src="${i}">`;
+				return newEl;
+			}
+			return null;
+		}
+	</script>
+</html>

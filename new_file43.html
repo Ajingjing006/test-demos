@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+		<title></title>
+		<style>
+			body {
+				padding: 0;
+				margin: 0;
+				cursor: pointer;
+				-webkit-tap-highlight-color: transparent;
+			}
+			#iframe{
+				height: 50px;
+				width: 100vw;
+				white-space: normal;
+				word-wrap: break-word;
+			}
+			#input {
+				height: 50px;
+				border: red 1px solid;
+				position: fixed;
+				bottom: 0;
+				width: 200px;
+				color: green;
+			}
+		</style>
+	</head>
+	<body ontouchstart="">
+		<div id="iframe"></div>
+		<input id="input" onfocus="dolog()" onblur="dolog()"/>
+	</body>
+	<script>
+		function log(...args) {
+			console.log(...args);
+			var s = '';//localStorage.getItem('test-text') || '';
+			args.forEach((item)=>{
+				s+=JSON.stringify(item);
+			})
+			iframe.innerHTML = iframe.innerHTML + s;
+			localStorage.setItem('test-text', s);
+		}
+		
+		
+		function delay(fn) {
+			setTimeout(fn, 1000);
+		}
+		function dolog() {
+			var el = document.querySelector('#iframe');
+			
+			delay(()=>{
+				// log(el.getBoundingClientRect());
+				log('pageYoffset', window.pageYOffset);
+				log('scrollY', window.screenY);
+			})
+		}
+		
+		
+	</script>
+</html>

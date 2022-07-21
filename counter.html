@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width" />
+		<title>counter</title>
+		<style>
+			body {
+				padding: 0;
+				/* margin: 0; */
+			}
+			.counter {
+				position: relative;
+				counter-reset: counter1 5;/*统计名称及起始值*/
+				counter-increment: counter1;
+			}
+			.counter:after {
+				content: counters(counter1, ',', lower-alpha);/*显示统计值*/
+				color: red;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			.padding-cont {
+				padding-top: 100%;
+				outline: 1px solid red;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- <div class="counter"></div>
+		<div class="counter"></div> -->
+		<div class="padding-cont"></div>
+	</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script>
+			var list1 = [1, 2, 3, 4, 6];
+			var list2 = [7, 8, 4, 9, 10, 11, 12, 99]; 
+			var result = [];
+			var step = 0;
+			f:for (let x=0;x<100;x++) {
+				for (let i=0;i<list1.length;i++) {
+					for(let j=0;j<list2.length;j++) {
+						step++;
+						if (list1[i] == list2[j]) {
+							result.push(list1[i]);
+							break f;
+						}
+					}
+				}
+			}
+			console.log(result, step);
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>canvas test</title>
+		<style>
+			canvas {
+				border: 1px solid red;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="graph" width="500" height="500"></canvas>
+	</body>
+	<script>
+		let graph = document.querySelector('#graph');
+		let ctx = graph.getContext('2d');
+		ctx.lineWidth = '4px';
+		ctx.strokeStyle = 'pink';
+		draw();
+		function draw() {
+			ctx.save();
+			
+			let region = new Path2D();
+			region.rect(80, 10, 20, 130);
+			region.rect(40, 50, 100, 50);
+			region.closePath();
+			ctx.clip(region, "nonzero");//evenodd
+			ctx.fillStyle = '#00FFFF';
+			ctx.fillRect(0,0, 300, 300);
+			
+						
+			let region2 = new Path2D();
+			region2.arc(90, 70, 10, 0, Math.PI * 2, false);
+			region2.closePath();
+			ctx.clip(region2, "nonzero");//evenodd/nonzero
+			ctx.fillStyle = '#ff0000';
+			ctx.fillRect(0,0, 300, 300);
+			
+			ctx.restore();
+			//画线
+			ctx.lineWidth = '10';
+			ctx.strokeStyle = 'red';
+			ctx.translate(50, 50);
+			ctx.moveTo(0, 0);
+			ctx.lineTo(80, 80);
+			ctx.stroke();
+			
+			ctx.fillStyle = '#0000FF';
+			ctx.beginPath();
+			ctx.arc(80, 80, 50, 0, Math.PI*2, true);
+			ctx.closePath();
+			ctx.fill();
+			
+			//画渐变
+			let gradient = ctx.createLinearGradient(0, 200, 300, 200);
+			gradient.addColorStop(0, '#ff0000');
+			gradient.addColorStop(0.5, '#00000000');
+			gradient.addColorStop(1, '#0000ff');
+			
+			ctx.fillStyle = gradient;
+			ctx.fillRect(0,0, 300, 100);
+		}
+	</script>
+</html>

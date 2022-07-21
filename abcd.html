@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>王道</title>
+		<script src="js/lib/ramda.min.js"></script>
+		<style>
+			img {
+				min-width: 200px;
+				min-height: 200px;
+				outline: 1px solid red;
+			}
+		</style>
+	</head>
+	<script type="module">
+		// const form = document.querySelector('form');
+		// console.log(form);
+		// var state = {
+		// 	name: 123
+		// };
+		// var s = R.pipe(
+		// 	R.pathOr({}, ['a', 'b']),
+		// 	R.pick(['name'])
+		// )(state)
+		// console.log(s);
+		// const a = {name: 777}
+		// const fn1 = (() => {
+		// 	return () => {
+		// 		console.log(this);
+		// 	}
+		// }).bind(a)()
+		// fn1();
+		// window.test = fn1;
+		// window.test();
+
+		// const b = {
+		// 	test: fn1
+		// }
+		// // b.test();
+		// function Array() {
+		// 	this.name = 123;
+		// 	this.length = 10;
+		// }
+		// var s = new Array();
+		// console.log(s, typeof s);
+		// var a = 1;
+		// var b = 3;
+
+		// function* generatorFn() {
+		// 	console.log(234123);
+		// }
+		// var f = generatorFn();
+
+		// var arr = [1, [[2, 3], 4], [5, 6]];
+		// var flat = function *(a) {
+		// 	// a.forEach(function * (item){
+		// 	// 	if(typeof item !== 'number') {
+		// 	// 		yield * flat(item);
+		// 	// 	} else {
+		// 	// 		yield item;
+		// 	// 	}
+		// 	// })
+		// 	for(var item of a) {
+		// 		if(typeof item !== 'number') {
+		// 			console.log(item)
+		// 			yield * flat(item);
+		// 		} else {
+		// 			yield item;
+		// 		}
+		// 	}
+		// }
+		// for (var f of flat(arr)) {
+		// 	console.log(f);
+		// }
+
+		// function* testFn() {
+		// 	var a = yield;
+		// 	var b = yield;
+		// 	return a + b;
+		// }
+		// var g = testFn();
+
+		// function* foo() {
+		//   yield 1;
+		//   yield 2;
+		//   yield 3;
+		//   yield 4;
+		//   yield 5;
+		//   return 6;
+		// }
+
+		// for (let v of foo()) {
+		//   console.log(v);
+		// }
+
+		// //用状态机实现斐波那契数列
+		// function* gx() {
+		// 	let [prev, curr] = [0, 1];
+		// 	while(true) {
+		// 		yield curr;
+		// 		[prev, curr] = [curr, curr + prev];
+		// 		if (curr > 3000) break;
+		// 	}
+		// }
+		// for(const a of gx()) {
+		// 	console.log(a);
+		// 	if (a > 2000) break;
+		// }
+		// console.log([...foo()])
+		// console.log([...gx()])
+		// var [a, b, c, d] = foo();
+		// console.log(a, b, c, d)
+
+		// function* abc() {
+		// 	var a = yield 'a';
+		// 	console.log('a', a);
+		// 	var b = yield 'b';
+		// 	console.log('b', b);
+		// 	return a + b;
+		// }
+		// var s = abc();
+		// s.return();
+		// s.next();
+		// s.next(1);
+		// var d = s.next(55);
+		// console.log(d);
+
+		// function* numbers () {
+		//   yield 1;
+		//   try {
+		//     yield 2;
+		//     yield 3;
+		//   } finally {
+		//     yield 4;
+		//     yield 5;
+		//   }
+		//   yield 6;
+		// }
+		// var g = numbers();
+		// console.log(g.next()) // { value: 1, done: false }
+		// console.log(g.next()) // { value: 2, done: false }
+		// console.log(g.return(99)) // { value: 4, done: false }
+		// console.log(g.next()) // { value: 5, done: false }
+		// console.log(g.next()) // { value: 7, done: true }
+		// var a = 1;
+		// function* g() {
+		// 	if (a == 6) {
+		// 		yield 1;
+		// 	} else {
+		// 		yield 2;
+		// 	}
+		// }
+		// function* outer() {
+		// 	yield 66;
+		// 	yield* g();
+		// 	yield 99;
+		// }
+		// for (const a of outer()) {
+		// 	console.log(a);
+		// }
+		// var abc = new g(); 不能用new
+		// console.log(abc)
+
+		// // 使用状态机来控制回调用
+		// function* g(fn) {
+		// 	var res = yield fn();
+		// 	console.log('res', res);
+		// 	console.log('end', Date.now());
+		// }
+
+		// var a = g(loadFn);
+
+		// function loadFn() {
+		// 	setTimeout(function () {
+		// 		a.next(999);
+		// 	}, 3000)
+		// }
+		// console.log('start', Date.now());
+		// a.next();
+
+		// //状态机
+		// function*generator(fn) {
+		// 	var res = yield fn();
+		// 	console.log('返回值', res);
+		// }
+		// //异步函数
+		// function asyncFn() {
+		// 	setTimeout(function () {
+		// 		g.next('返回结果666');
+		// 	}, 1000)
+		// }
+		// var g = generator(asyncFn);
+		// g.next();//启动
+
+		//状态机管理异步写同步写法
+		// var g = G(asyncFn);
+		// g.next();
+		// function*G(fn) {
+		// 	var result = yield fn(g);
+		// 	console.log(2, result);
+		// }
+
+		// function asyncFn(callBack) {
+		// 	fetch('http://127.0.0.1:8848/Test1/abcd.html').then((res)=>{
+		// 		callBack.next(res);
+		// 	})
+		// }
+
+		// function step(val) {
+		// 	console.log('current', val);
+		// 	return val + 1;
+		// }
+
+		// function* longRunningTask(value1) {
+		//   try {
+		//     var value2 = yield step(value1);
+		//     var value3 = yield step(value2);
+		//     var value4 = yield step(value3);
+		//     var value5 = yield step(value4);
+		//     // Do something with value4
+		//   } catch (e) {
+		//     // Handle any error from step1 through step4
+		//   }
+		// }
+
+		// scheduler(longRunningTask(6));
+
+		// function scheduler(task) {
+		//   console.log('task', task);
+		//   debugger;
+		//   var taskObj = task.next(task.value);
+		//   // 如果Generator函数未结束，就继续调用
+		//   if (!taskObj.done) {
+		//     task.value = taskObj.value
+		//     scheduler(task);
+		//   }
+		// }
+
+		// 范海燕  周一雄
+		// 绍春义 顾斌
+
+		// function* iterEntries(obj) {
+		//   let keys = Object.keys(obj);
+		//   for (let i=0; i < keys.length; i++) {
+		//     let key = keys[i];
+		//     yield [key, obj[key]];
+		//   }
+		// }
+
+		// let myObj = { foo: 3, bar: 7 };
+
+		// for (let [key, value] of iterEntries(myObj)) {
+		//   console.log(key, value);
+		// }
+
+
+		// function* gen(x) {
+		// 	var y = yield x + 2;
+		// 	return y;
+		// }
+
+		// var g = gen(1);
+		// console.log(g.next()) // 
+		// console.log(g.next(999)) // 
+
+		// function* gen() {
+		// 	var url = 'https://api.github.com/users/github';
+		// 	var result = yield fetch(url);
+		// 	console.log('这里', result.bio);
+		// }
+
+		// var g = gen();
+		// var result = g.next();
+		// console.log(result)
+		// result.value.then(data=>data.json()).then(data=>g.next(data))
+
+		// function f(thunk) {
+		// 	return thunk() * 2;
+		// }
+
+		// var thunk = function() {
+		// 	return x + 5;
+		// }
+
+		// var x = 5;
+		// var res = f(thunk);
+		// console.log(res);
+
+		// var Thunk = function (fn) {
+		// 	return function (...args) {
+		// 		return function (callback) {
+		// 			return fn.call(this, ...args, callback);
+		// 		}
+		// 	}
+		// }
+
+		// function * gen() {
+		// 	var a = yield fetch('https://api.github.com/users/github');
+		// 	console.log('a', a);
+		// 	var b = yield fetch('https://api.github.com/users/github');
+		// 	console.log('b', b);
+		// }
+
+		// function run(fn) {
+		// 	var g = fn();
+		// 	function next(data) {
+		// 		var result = g.next(data);
+		// 		if (result.done) return;
+		// 		result.value.then(res=> res.json()).then(next);
+		// 	}
+		// 	next();
+		// }
+		// run(gen)
+
+		// function* getData(url) {
+		// 	let result = fetch(url);
+		// 	yield function (next) {
+		// 		result.then(res=>res.json()).then(next)
+		// 	}
+		// }
+
+		// function* gen() {
+		// 	var c = yield * getData("https://api.github.com/users/github");
+		// 	var a = yield c;
+		// 	console.log('a', a);
+		// 	var b = yield * getData("https://api.github.com/users/github");
+		// 	var d = yield b;
+		// 	console.log('d', d);
+		// }
+
+		// function run(gen, inputValue) {
+		// 	let g = gen(inputValue);
+		// 	function next(data) {
+		// 		console.log('999', data)
+		// 		var result = g.next(data);
+		// 		if (result.done) {
+		// 			return;
+		// 		} else {
+		// 			result.value(next)
+		// 		}
+		// 	}
+		// 	next();
+		// }
+		// run(gen)
+
+
+		// function * gen() {
+		// 	var a = yield fetch('http://127.0.0.1:8848/1.html');
+		// 	console.log('a', a);
+		// 	var b = yield fetch('http://127.0.0.1:8848/1.html');
+		// 	console.log('b', b);
+		// }
+
+		// function runA(gen) {
+		// 	let g = gen();
+		// 	function next(data) {
+		// 		let result = g.next(data);
+		// 		if(result.done) return;
+		// 		result.value.then(res=>res.text()).then(next);
+		// 	}
+		// 	next();
+		// }
+		// runA(gen)
+
+		// async function fn() {
+		// 	var s = await fetch('http://127.0.0.1:8848/1.html');
+		// 	console.log('s', s);
+
+		// }
+		// var s = fn();
+		// var list = ['https://api.github.com/users/github', 'https://api.github.com/users/github',
+		// 	'https://api.github.com/users/github', 'https://api.github.com/users/github'
+		// ];
+
+		// function* gen() {
+		// 	for (let url of list) {
+		// 		let data = yield fetch(url).then(res => res.json());
+		// 		console.log(data);
+		// 	}
+		// }
+
+		// function runB(gen) {
+		// 	const g = gen();
+
+		// 	function next(data) {
+		// 		let result = g.next(data);
+		// 		if (result.done) {
+		// 			return;
+		// 		} else {
+		// 			result.value.then(next);
+		// 		}
+		// 	}
+		// 	next();
+		// }
+		// runB(gen);
+
+		// function fn(data) {
+		// 	switch (data.type) {
+		// 		case '1':
+		// 			{
+		// 				const [a, b] = data.data;
+		// 				console.log(data.type, a, b);
+		// 				return;
+		// 			}
+		// 		case '2':
+		// 			{
+		// 				const [a, b] = data.data;
+		// 				console.log(data.type, a, b);
+		// 				break;
+		// 			}
+		// 		case '3':
+		// 			{
+		// 				const [a, b] = data.data;
+		// 				console.log(data.type, a, b);
+		// 				break;
+		// 			}
+		// 	}
+		// 	console.log('finally');
+		// }
+		// fn({type: '1', data: [1, 2]})
+
+		// //测试toString
+		// let data = {
+		// 	toString() {
+		// 		const value = true;
+		// 		console.log('value:' + value)
+		// 		return value;
+		// 	},
+		// 	`
+		// }
+		// if (data == 1) {
+		// 	console.log('执行1');
+		// }
+		// console.log('执行2');
+
+		// function * gen() {
+		// 	var a = yield fetch('http://127.0.0.1:8848/2.html').then(res=>res.text());
+		// 	console.log('a', a);
+		// 	var b = yield fetch('http://127.0.0.1:8848/999.html').then(res=>res.text());
+		// 	console.log('b', b);
+		// 	return 666;
+		// }
+
+		// function runFn(gen) {
+		// 	let g = gen();
+		// 	function next(data) {
+		// 		let res = g.next(data);
+		// 		if (res.done) {
+		// 			console.log(res.value);
+		// 			return;
+		// 		} else {
+		// 			res.value.then(next)
+		// 		}
+		// 	}
+		// 	next();
+		// }
+		// runFn(gen)
+
+		// function* lll() {
+		// 	var a = yield fetch("http://127.0.0.1:8848/2.html").then(res=>res.text());
+		// 	console.log('a', a);
+		// 	var b = yield fetch("http://127.0.0.1:8848/999.html").then(res=>res.text());
+		// 	console.log('b', b);
+		// 	return '999';
+		// }
+
+		// function run(gen) {
+		// 	var g = gen();
+		// 	function next(data) {
+		// 		const res = g.next(data);
+		// 		if (res.done) {
+		// 			console.log('done', res.value);
+		// 			return;
+		// 		} else {
+		// 			res.value.then(next)
+		// 		}
+		// 	}
+		// 	next();
+		// }
+		// run(lll);
+	</script>
+	<script defer src="js/testJs/1.js"></script>
+	<body>
+		<!-- <p>1</p>
+		<form id="form" action="https://www.baidu.com" method="POST">
+			<input name="filed1" id="filed2" value="1"/>
+			<input id="filed3" value="3"/>
+		</form>
+		<input name="filed2" value="2" form="form"/>
+		<input type="submit" name="btn" value="2" form="form"/>
+		<button id="submit" form="form">拦截提交功能</button> -->
+		<div id="imgContainer">
+			<button data-key="1" onclick="setImageHandler(event)">链接1</button>
+			<button data-key="2" onclick="setImageHandler(event)">链接2</button>
+		</div>
+	</body>
+	<script>
+		function setImageHandler(event) {
+			const ele = event.target;
+			const key = ele.dataset.key;
+			let link;
+			switch (key) {
+				case "1":
+					link = `https://img2.baidu.com/it/u=4084621093,2971972319&fm=253&fmt=auto&app=120&f=JPEG?w=889&h=500`;
+					break;
+				case "2":
+					link = `https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic%2Fe5%2Fee%2F39%2Fe5ee394171595fe762878968bf537f0c.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1660096869&t=53eefe90374bf00310484b576040825b`;
+					break;
+			}
+			setImageProxy.setSrc(link);
+		}
+		const setImageProxy = (function() {
+			const image = document.createElement('img');
+			imgContainer.appendChild(image);
+			return {
+				setSrc: function(link) {
+					image.src = './img/640.gif';
+					const dyimg = document.createElement('img');
+					dyimg.onload = () => {
+						image.src = dyimg.src;
+					}
+					dyimg.src = link;
+				}
+			}
+		})()
+	</script>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<style>
+			child {
+				width: 300px;
+				background: red;
+				margin: 0 10px;
+				display: inline-block;
+			}
+		</style>
+		<!-- <script src="./js/srs-h5-hybird-sdk_bridge.js"></script> -->
+		<!-- <script src="./js/gzcj_02.js"></script> -->
+		<!-- <script src="./js/require.js"></script> -->
+		<script>
+			// requirejs.config({
+			//   paths: {
+			//     "jquery": "./js/jquery-3.4.0"
+			//   }
+			// });
+			// require(['SRSAPP'], function (SRSAPP) {
+			// 	// SRSAPP.onEvent('abcd');
+			// 	// window.SRSAPP
+			// 	console.log('window.SRSAPP', window.SRSAPP, SRSAPP)
+			// })
+		</script>
+		<title>SRSAPP</title>
+		<style>
+			div {
+				margin: 20px auto;
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body class="normal" id="index">
+		<input type="tel" pattern="[0-9]"/>
+		<div style="overflow: scroll;white-space: nowrap;">
+			<child>1</child>
+			<child>2</child>
+			<child>3</child>
+			<child>4</child>
+			<child>5</child>
+		</div>
+		<div class="box">
+			<div class="wrapper">
+				<div class="btn" td-event="srstest20200529label">TD-标签触发</div>
+				<div class="btn" id="api-btn">JSAPI触发</div>
+				<br>
+				<div class="btn" td-event="srstest1111">标签触发,iD为1111</div>
+				<div class="btn" td-event="srstest2222">标签触发,iD为2222</div>
+			</div>
+		</div>
+		<!-- <script src="./js/srs-h5-hybird-sdk_bridge.js"></script> -->
+		<script src="js/Line.js"></script>
+	</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<blink>123</blink>
+	</body>
+	<script>
+		function main() {
+			const isEven = (val) => typeof val === "number" && val % 2 === 0;
+			//1 数组的基本操作方法reduce
+			// var list = [2, 3, 4, 99, null, ''];
+			// var result = list.reduce((prev, current) => {
+			// 	console.log(prev, current)
+			// 	return prev + current;
+			// })
+
+			//2 array.from
+			// var map = new Map([[1, 1], [2, 3]])
+			// var list2 = Array.from(map, x=>false)
+			// var list = [1, 2, 3, 4, 5]
+			// var l = Array.from(list, x => (x % 2 == 0));
+			// console.log(list, l)
+
+			//3 sort
+			var list = [1, 2, 3, 4, 5];
+			var list2 = list.sort((next, current) => {
+				console.log(next, current);
+				return next - current;
+			})
+			console.log(list, list2)
+		}
+		main();
+	</script>
+</html>
+
+<!-- https://github.com/wangdoc/react-tutorial.git
+https://github.com/wangdoc/git-tutorial.git
+https://github.com/wangdoc/ssh-tutorial.git
+https://github.com/wangdoc/bash-tutorial.git
+https://github.com/wangdoc/javascript-tutorial.git -->

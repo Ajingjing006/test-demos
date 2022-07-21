@@ -1,0 +1,15 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+    <title>无标题文档</title>
+</head>
+<body>
+<input type="text" id="demo" value="123456hhh">
+</body>
+<script>
+	document.querySelector('#demo').focus();
+	var len = demo.value.length;
+	demo.selectionStart = len -1;
+	demo.selectionEnd = len - 1;
+</script>
+</html>

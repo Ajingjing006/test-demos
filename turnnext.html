@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>测试翻页</title>
+		<link href="css/turn.css" rel="stylesheet"/>
+	</head>
+	<body>
+		<div class="book">
+			<div id="page1" class="page un-active">
+				1
+			</div>
+			<div class="mask-wrap">
+				3
+				<div id="page2" class="page un-active">
+					2
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		let page;
+		let drag = getNextPage();
+		initListenders();
+		function getNextPage() {
+			return document.querySelector('#page2');
+		}
+		function movePage(ele,point, bookRec, _rec) {
+			//point鼠标对于页面的位置
+			let bookPage1RTPoint = {x:bookRec.left,y:bookRec.top};
+			let point2 = {x: _rec.x + _rec.width,y:_rec.y};
+			let angle = getPageAngle(point, point2);
+			let dragPoint = {x: point.x - bookPage1RTPoint.x,y:point.y - bookPage1RTPoint.y};
+			let maskEle = document.querySelector('.mask-wrap');
+			let angle2 = getMaskAngle(point, point2);
+			maskEle.setAttribute('style', `left:${dragPoint.x}px;top:${dragPoint.y}px;transform: rotate(${angle2 + 90}deg) translate(0, 0); transform-origin: left top;`);
+			ele.setAttribute('style', `transform: rotate(${angle2 - 90}deg) translate(200px, 200px); transform-origin: 0% 0%;`);
+		}
+		function initListenders() {
+			let ele = document.querySelector('.book');
+			document.addEventListener('mouseover', function (e) {
+			});
+			document.addEventListener('mouseout', function (e) {
+				page = null;
+			});
+			document.addEventListener('mousedown', function (e) {
+				page = ele;
+			});
+			document.addEventListener('mouseup', function (e) {
+				page = null;
+			});
+			document.addEventListener('mousemove', function (e) {
+				if (page) {
+					let bookRec = ele.getBoundingClientRect();//书籍矩形
+					let page1Rec = page1.getBoundingClientRect();//第一页的矩形区域
+					movePage(drag, {x:e.pageX,y:e.pageY},bookRec,page1Rec);
+				}
+			});
+		}
+		function getPageAngle(point1, point2) {
+			let angle = Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI * 2;
+			return angle;
+		}
+		function getMaskAngle(point1, point2) {
+			let angle = Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
+			return angle;
+		}
+	</script>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width">
+		<style>
+			body {
+				padding: 0;
+				margin: 0;
+			}
+			.video-cont {
+				padding-top: 56%;
+				width: 100%;
+				position: relative;
+			}
+			#video {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				/* object-fit: fill; */
+			}
+		</style>
+	</head>
+	<body>
+		<div class="video-cont">
+			<video id="video" class="video" autoplay="autoplay" loop="loop" controls type="video/mp4">
+				浏览器不支持video
+			</video>
+		</div>
+		<button onclick="loadVideo()">load</button>
+	</body>
+	<script>
+		function loadVideo() {
+			document.querySelector('#video').setAttribute('src', 'resource/movie.mp4');
+		}
+	</script>
+</html>

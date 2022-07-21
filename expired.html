@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script>
+			const localStorage = (function () {
+				let data = {};
+				let expiredList = {};
+				function setItem (key, value, expiredTime) {
+					data[key] = value;
+					if (Number(expiredTime)) {
+						timeTickOut({key, expiredTime});
+					}
+				}
+				function getItem (key) {
+					return data[key];
+				}
+				function removeItem (key) {
+					let timer = expiredList[key];
+					clearTimeout(timer);
+					delete expiredList[key];
+					return delete data[key];
+				}
+				function clear () {
+					data = {};
+				}
+				function timeTickOut({key, expiredTime}) {
+					let timer = setTimeout(function () {
+						removeItem (key)
+					}, expiredTime)
+					expiredList[key] = timer;
+				}
+				return {
+					setItem,
+					getItem,
+					removeItem,
+					clear
+				}
+			})();
+			localStorage.setItem('abc', 18, 5000)
+			setInterval(function () {
+				console.log(localStorage.getItem('abc'))
+			}, 1000)
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			#p1 {
+				color: #00f;
+				font: "黑体,华文行楷,微软雅黑" 2em bold;
+			}
+			.p2 {
+				line-height: 30px;
+				text-indent: 20px;
+				text-decoration: underline;
+			}
+			div {
+				width: 300px;
+				padding: 10px;
+				border: 1px solid gray;
+				margin: 20px 10px;
+			}
+			#block1 {
+				float: left;
+				border: 2px solid red;
+				width: 150px;
+				height: 150px;
+			}
+			#block2 {
+				position: absolute;
+				top: 200px;
+				left: 300px;
+				border: 2px solid blue;
+				width: 150px;
+				height: 150px;
+			}
+			.trans-box {
+				width: 200px;
+				height: 200px;
+				border: 1px dotted #f00;
+				margin: 100px;
+			}
+			.trans-box.box1 {
+				transform: rotate(30deg);
+			}
+			.trans-box.box2 {
+				transform: skew(30deg);
+			}
+			.trans-box.box3 {
+				transition: transform 1s linear;
+				transform: scale(1);
+			}
+			.trans-box.box3:hover {
+				transform: scale(.5,.5);
+				transform-origin: center;
+			}
+			.trans-box.box4 {
+				transform: translate(50px, 100px);
+			}
+		</style>
+	</head>
+	<body>
+		<p id="p1">上海市浦东软件园职业技能培训中心</p>
+		<h3 style="text-align: center;">测试</h3>
+		<p class="p2">上海浦东郭守敬路498号浦东软件园1号楼</p>
+		<div>BOX1</div>
+		<div>BOX2</div>
+		<div id="block1">浮动定位</div>
+		<div id="block2">绝对定位</div>
+		<div class="trans-box box1"></div>
+		<div class="trans-box box2"></div>
+		<div class="trans-box box3"></div>
+		<div class="trans-box box4"></div>
+	</body>
+	<script>
+		var pEl = document.createElement('p');
+		pEl.innerHTML = '这是一个新的段落';
+		document.querySelector('#p1').appendChild(pEl)
+	</script>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<link href="css/p-tree.css" rel="stylesheet">
+	</head>
+	<body>
+		<div>
+			<button id="btn1">click更改节点</button>
+			<button id="btn2">获取选中的节点数据</button>
+		</div>
+		<div id="root" class="p-tree">
+			
+		</div>
+	</body>
+	<script type="module">
+		import PTree from './js/lib/pTree.js';
+		function app() {
+			const tree = new PTree({
+				root: 'root',//必须要放id
+				selectable: true,
+				data: [
+					{
+						text: 'node 1',
+						opened: true,
+						children: [
+							{
+								text: 'node 1-1'
+							}, {
+								text: 'node 1-2',
+								opened: true,
+								children: [
+									{
+										text: 'node 1-2-1'
+									}
+								]
+							}
+						]
+					},
+					{
+						text: 'node 2',
+						children: [
+							{
+								text: 'node 2-1'
+							}, {
+								text: 'node 2-2'
+							}
+						]
+					},
+					{
+						text: 'node 3',
+						children: [
+							{
+								text: 'node 3-1',
+								children: [
+									{
+										text: 'node 4-1'
+									}, {
+										text: 'node 4-2',
+										children: [
+											{
+												text: 'node 5-1'
+											}, {
+												text: 'node 5-2'
+											}
+										]
+									}
+								]
+							}, {
+								text: 'node 3-2'
+							}
+						]
+					}
+				]
+			})
+			btn1.addEventListener('click', ()=>{
+				const treeNode = Array.from(tree.mapping.values())[0];
+				treeNode.text = 999;
+				tree.updateElement(treeNode);
+			})
+			btn2.addEventListener('click', ()=>{
+				const {parents, children, all} = tree.getSelection();
+				console.log('parents', parents);
+				console.log('children', children);
+				console.log('all', all);
+			})
+		}
+		app();
+	</script>
+</html>

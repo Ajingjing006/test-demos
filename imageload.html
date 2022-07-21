@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script>
+		var image = document.createElement('img');
+		image.setAttribute('src', 'img/bill-icon.png');
+		image.addEventListener('load', function (e) {
+			console.log(e)
+		})
+		document.querySelector('body').appendChild(image)
+	</script>
+</html>

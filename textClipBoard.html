@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/clipboard.js"></script>
+	</head>
+	<body>
+		<input id="foo" value="https://github.com/zenorocha/clipboard.js.git">
+
+		<!-- Trigger -->
+		<button class="btn1" data-clipboard-target="#foo" onclick="clip(1)">
+			
+		</button>
+		<input id="foo2" value="https://github.com/zenorocha/clipboard.js.git">
+		
+		<!-- Trigger -->
+		<button class="btn2" data-clipboard-target="#foo2" onclick="clip(2)">
+			
+		</button>
+		<input id="foo3" value="https://github.com/zenorocha/clipboard.js.git">
+		
+		<!-- Trigger -->
+		<button class="btn3" data-clipboard-target="#foo3" onclick="clip(3)">
+			
+		</button>
+	</body>
+	<script>
+		function clip(index) {
+			var clipboard = new ClipboardJS('.btn' + index);
+			
+			clipboard.on('success', function(e) {
+				console.info('Action:', e.action);
+				console.info('Text:', e.text);
+				console.info('Trigger:', e.trigger);
+			});
+			
+			clipboard.on('error', function(e) {
+				console.error('Action:', e.action);
+				console.error('Trigger:', e.trigger);
+			});
+		}
+	</script>
+</html>

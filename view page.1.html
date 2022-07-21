@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>简单的节点画线</title>
+		<style>
+			body {
+				margin:0;
+				padding: 0;
+			}
+			.node {
+				min-width: 100px;
+				min-height: 50px;
+				border: 1px aqua solid;
+				display: inline-block;
+				text-align: center;
+			}
+			.node2 {
+				position: absolute;
+				right: 20px;
+				top: 300px;
+			}
+			#svg-cont {
+				position: fixed;
+				top: 0px;
+				left: 0px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="node node1">1</div>
+		<div class="node node2">2</div>
+		<div id="svg-cont"></div>
+	</body>
+	<script>
+		const SVG_CONT_ID = '#svg-cont';
+		const LINE_OPTION = {
+			COLOR: '#000000',
+			WEIGHT: 2,
+			FILL: 'transparent'
+		}
+		const POINT_OPTION = {
+			FIX: '50'
+		}
+		//查找获取节点
+		function getNodeEle(el) {
+			return document.querySelector(el);
+		}
+		
+		//获取节点的坐标,宽高
+		function getNodeRectangle(node) {
+			if (node) {
+				var x = node.offsetLeft;
+				var y = node.offsetTop;
+				var w = node.offsetWidth;
+				var h = node.offsetHeight;
+				return {
+					x: x,
+					y: y,
+					w: w,
+					h: h
+				}
+			} else {
+				return null;
+			}					
+		}
+				
+		//根据传入的两个需要连接的矩形区域的信息，获得需要画线的两个端点
+		function getLineEndPointsBaseRectangles(rect1, rect2) {
+			//暂不考虑两个矩形区域直接相邻或重叠这种情况
+			var point1,point2;
+			var p1, p2;
+			p1 = rect1.x < rect2.x? rect1: rect2;
+			p2 = rect1.x < rect2.x? rect2: rect1;
+			point1 = {
+				x: p1.x + p1.w,
+				y: p1.y + p1.h * 0.5
+			}
+			point2 = {
+				x: p2.x,
+				y: p2.y + p2.h * 0.5
+			}
+			return {point1,point2};
+		}
+		
+		//获取最大的显示画布区域
+		function getViewBoxData(rect1, rect2) {
+			var w = (rect2.x > rect1.x? (rect2.x + rect2.w) : (rect1.x + rect1.w));
+			var h = (rect2.y > rect1.y? (rect2.y + rect2.h) : (rect1.y + rect1.h));
+			return {
+				viewBox: '0 0 ' + w + ' ' + h,
+				w: w,
+				h: h
+			};
+		}
+		
+		//创建svg线
+		function getSVGLineElement(rect1, rect2) {
+			var data = getLineEndPointsBaseRectangles(rect1, rect2);
+			var {point1,point2} = data;
+			var _svgNS = 'http://www.w3.org/2000/svg';
+			var svgContData = getViewBoxData(rect1, rect2);
+			var attributes = {
+					width: svgContData.w,
+					height: svgContData.h,
+					xmlns: "http://www.w3.org/2000/svg",
+					viewBox: svgContData.viewBox,
+					x: '0px',
+					y: '0px'
+				};
+			var svg = document.createElementNS(_svgNS, 'svg');
+			for(var i in attributes) {
+				svg.setAttribute(i, attributes[i]);
+			}
+			
+			var path = document.createElementNS(_svgNS, 'path');
+			var pathAttributes = {
+				d: getPathData(data),
+				fill: LINE_OPTION.FILL,
+				stroke: LINE_OPTION.COLOR,
+				'stroke-width': LINE_OPTION.WEIGHT
+			}
+			for(var i in pathAttributes) {
+				path.setAttribute(i, pathAttributes[i]);
+			}
+			svg.appendChild(path);			
+			return svg;
+		}
+		
+		//根据传入的端点数据,获得需要连线的path值
+		function getPathData(data) {
+			var {point1,point2} = data;
+			var result = `M ${point1.x} ${point1.y} H ${parseFloat(point1.x) + parseFloat(POINT_OPTION.FIX)} L ${parseFloat(point2.x) - parseFloat(POINT_OPTION.FIX)} ${point2.y} H ${point2.x}`;
+			return result;
+		}
+		
+		//根据传入的两个节点选择,创建连线
+		function createLineInCont(el1, el2, parentID) {
+			var svg = getSVGLineElement(getNodeRectangle(getNodeEle(el1)),getNodeRectangle(getNodeEle(el2)));
+			document.querySelector(parentID).appendChild(svg);
+			return svg;
+		}		
+		
+		function initListenders() {
+			document.querySelector('body').addEventListener('resize', refreshlinesHandler);
+		}
+		
+		var lineArray = {};
+		function createAndSaveLines(ele1, ele2) {
+			var line = createLineInCont(ele1, ele2, SVG_CONT_ID);
+			lineArray[ele1 + '|' + ele2] =  {
+				eleStart: ele1,
+				eleEnd: ele2,
+				line: line
+			};
+		}
+		
+		function Line(start, end) {
+			
+		}
+		
+		Line.prototype.create = function () {
+			
+		}
+		Line.prototype.refresh = function () {
+			
+		}
+		
+		createAndSaveLines('.node1', '.node2');
+		
+		function refreshlinesHandler() {
+			if (lineArray) {
+				for (var i of lineArray) {
+					
+				}
+			}
+		}
+		
+	</script>
+<!-- 	<svg viewBox="0 0 1198 352" x="0px" y="0px" width="1198" height="352" xmlns="http://www.w3.org/2000/svg">
+		<path d="M 102 26 H 160 L 1046 326 H 1096" fill="transparent" stroke="#000000" stroke-width="1"></path>
+	</svg>
+	<div style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1096px;
+    height: 300px;
+    background: rgba(255,0,0,.5);
+"></div> -->
+</html>

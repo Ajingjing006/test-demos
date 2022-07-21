@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+		<title>绘制海报</title>
+		<style>
+			
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas" width="375"></canvas>
+	</body>
+	<script src="js/jquery-3.4.0.js"></script>
+	<script>
+		function PosterDraw(options) {
+			this.options = options;
+			draw();
+			//获取画布
+			function getCanvas() {
+				return document.querySelector('#canvas');
+			}
+			
+			//开始绘制
+			function draw() {
+				var w = 375; //画布宽度
+				var h = 0; //画布高度
+				drawImage();
+				
+				
+			}
+			
+			//绘制图片
+			function drawImage() {
+				var ctx = getCanvas().getContext('2d'); //画布上下文
+				var image = loadImage(url, callBack);
+				var drawImage(image, 0, 0, image.width, image.height);
+			}
+			
+			//加载图片
+			function loadImage(url, callBack) {
+				var image = $('<img>');
+				image[0].onload = function () {
+					callBack(image[0]);
+				}
+				image.attr('src', url);
+			}
+		}
+	</script>
+</html>

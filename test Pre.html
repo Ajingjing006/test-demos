@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width" />
+		<title></title>
+		<style>
+			.icon-menu {
+				display: inline-block;
+				width: 140px; height: 10px;
+				padding: 35px 0;
+				border-top: 10px solid;
+				border-bottom: 10px solid;
+				background-color: currentColor;
+				background-clip: content-box;
+			}
+			.icon-dot {
+				display: inline-block;
+				width: 100px; height: 100px;
+				padding: 10px;
+				border: 10px solid;    
+				border-radius: 50%;
+				background-color: currentColor;
+				background-clip: content-box;
+			}
+			.border {
+				border-radius: 12px;
+				width: 200px;
+				height: 50px;
+				position: relative;
+				overflow: hidden;
+				animation: test 1s infinite;
+			}
+			.border:before {
+				position: absolute;
+				height: 100%;
+				width: 100%;
+				border: 1px solid red;
+				top: 0;
+				left: 0;
+				content: '';
+			}
+			.border:after {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 20px;
+				width: 200px;
+				background: green;
+				transform: rotateZ(45deg);
+				content: '';
+				transform-origin: center center;
+				border-radius: 12px;
+			}
+			@keyframes test{
+				from{
+					a {
+						color: red
+					}
+				}
+				to{
+					a {
+						color: green
+					}
+				}
+			}
+		</style>
+		<script src="js/jquery-3.4.1.js"></script>
+	</head>
+	<body>
+		<i class="icon-menu"></i>
+		<i class="icon-dot"></i>
+		<div class="border">
+			内容
+			<a> test frames</a>
+		</div>
+	</body>
+	<script>
+		$.ajax({
+			url: './resource/data2.json',
+			type: 'GET',
+			success: function (response) {
+				$('body').append($(`<pre>${response.msg}</pre>`))
+			}
+		})
+	</script>
+</html>

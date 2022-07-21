@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+		<title></title>
+		<script src="js/jquery-3.4.0.js"></script>
+		<script>
+			function log(...args) {
+				console.log(...args);
+			}
+		</script>
+	</head>
+	<body>
+		<button onclick="choose(111)">选择111</button>
+		<button onclick="choose(222)">选择222</button>
+	</body>
+	<script>
+		var plist;
+		$.getJSON('./resource/test2.json', function (data) {
+			plist = data.data.skuProdList;
+			log(plist);
+		})
+		
+		function choose(id) {
+			var list = filer(['666']);
+			log(list, total(list));
+		}
+		
+		function filer(_chooseIds) {
+			var result = [];
+			plist.forEach((item)=>{
+				var dimension = item.saleAttrList;
+				var tempRList = 0;
+				_chooseIds.forEach((cId)=>{
+					dimension.forEach((saleAttr)=>{
+						if (saleAttr.attrValueId == cId) {
+							tempRList++;
+						}
+					})
+				})
+				if (tempRList == _chooseIds.length) {
+					result.push(item)
+				}
+			})
+			return result;
+		}
+		function total(list) {
+			var t = 0;
+			list.forEach((item)=>{
+				t+= item.stock;
+			})
+			return t;
+		}
+	</script>
+</html>

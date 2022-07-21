@@ -1,0 +1,120 @@
+.p-tree .tree-node {
+	font-size: 16px;
+	line-height: 20px;
+	color: #222;
+	padding-left: 16px;
+	background: url(../assets/close.png) no-repeat;
+	background-size: 10px 10px;
+	background-position: left 2px top 4px;
+	position: relative;
+}
+
+/**
+ * 增加parent节点前的竖线
+ **/
+.tree-node::after {
+	position: absolute;
+	top: 14px;
+	left: 6px;
+	width: 1px;
+	bottom: 10px;
+	content: '';
+	pointer-events: none;
+	background-color: #aaa;
+}
+
+.tree-node .checkbox-container {
+	position: relative;
+	padding-left: 16px;
+}
+
+.tree-node .checkbox-container .state-icon {
+	display: block;
+	position: absolute;
+	left: 1px;
+	top: 4px;
+	width: 100%;
+	height: 20px;
+	background: url(../assets/un-selected.png) no-repeat;
+	background-size: 12px auto;
+	background-position: left top;
+}
+
+
+.tree-node.half>.checkbox-container .state-icon {
+	/* background: green; */
+	background-image: url(../assets/partial-selected.png);
+}
+
+.tree-node.all>.checkbox-container .state-icon {
+	/* background: black; */
+	background-image: url(../assets/selected.png);
+}
+
+.tree-node.childnode.selected>.checkbox-container .state-icon {
+	background-image: url(../assets/selected.png);
+}
+
+.p-tree>.tree-node::after {
+	bottom: -5px;
+}
+
+.p-tree>.tree-node:last-child::after {
+	content: none;
+}
+
+.p-tree>.tree-node:last-child.opened::after {
+	content: '';
+	bottom: 10px;
+}
+
+/**
+ * 增加parent节点前的横线
+ **/
+.p-tree .p-tree-child-container>.tree-node::before {
+	position: absolute;
+	top: 9px;
+	left: -10px;
+	right: 100%;
+	content: '';
+	pointer-events: none;
+	background-color: #aaa;
+	height: 1px;
+}
+
+.p-tree .tree-node .childnode {
+	padding-left: 16px;
+	background-image: url(../assets/node.png);
+}
+
+.p-tree .tree-node.opened {
+	background-image: url(../assets/open.png);
+}
+
+.p-tree .tree-node.disabled {
+	color: #aaa;
+}
+
+.p-tree .disabled div:hover {
+	text-decoration: none !important;
+}
+
+.p-tree .tree-node .p-tree-child-container {
+	display: none;
+}
+
+.p-tree .tree-node.opened>.p-tree-child-container {
+	display: block;
+}
+
+.p-tree .tree-node:hover {
+	text-decoration: currentColor underline;
+}
+
+.p-tree .tree-node.opened:hover {
+	text-decoration: none;
+}
+
+.p-tree .p-tree-child-container .childnode:hover {
+	text-decoration: currentColor underline;
+}

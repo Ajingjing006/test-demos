@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width" />
+		<title></title>
+		<style type="text/css">
+			#scroll {
+				height: 1200px;
+				width: 100px;
+				background: pink;
+			}
+		</style>
+		<!-- <script src="./js/jquery-3.4.1.js"></script>
+		<script src="./js/vconsole.min.js"></script> -->
+		<script>
+			var rows = [{
+					2: {
+						type: 'apple',
+						value: 'value1'
+					},
+					4: {
+						auto: '123',
+						value: '456'
+					},
+					eid: 'eid1'
+				},
+				{
+					3: {
+						type: 'apple',
+						value: 'value2'
+					},
+					4: {
+						auto: '333',
+						value: '222'
+					},
+					eid: 'eid2'
+				},
+				{
+					3: {
+						type: 'apple1',
+						value: 'value2'
+					},
+					4: {
+						auto: '333',
+						value: '222'
+					},
+					eid: 'eid3'
+				}
+			];
+
+			var ids = ['eid1', 'eid2'];
+
+			var res = [{
+					eid: 'eid1',
+					value: 'value1'
+				},
+				{
+					eid: 'eid2',
+					value: 'value2'
+				}
+			];
+			
+			var dataMatchFn = (attrName, constVal, option) => {
+				return typeof option == 'object' && option[attrName] == constVal;
+			}
+			var assertFn = function(item) {
+				return dataMatchFn('type', 'apple', item);
+			}
+
+			function filterFn(list, filterKeys, _assertFn) {
+				const res = [];
+				Array.isArray(list) && list.filter(item => {
+					return filterKeys.includes(item.eid);
+				}).reduce((list, item) => {
+					for (let key in item) {
+						const _val = item[key];
+						if (_assertFn(_val)) {
+							list.push({
+								eid: item.eid,
+								value: _val.value
+							})
+						}
+					}
+					return list;
+				}, res);
+				return res;
+			}
+			console.log(filterFn(rows, ids, assertFn))
+		</script>
+	</head>
+	<body>
+		<div id="scroll">
+
+		</div>
+		<!-- <script>
+			new VConsole();
+			document.addEventListener('scroll', function(e) {
+				let top = $('body').scrollTop() || $('html').scrollTop();
+
+				if (top >= 0) {
+					$('body, html').scrollTop(top);
+				}
+			})
+		</script> -->
+	</body>
+</html>

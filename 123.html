@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<title></title>
+		<style>
+			.test {
+				border: 1px solid red;
+			}
+			.cont {
+				font-size: 0;
+				line-height: 0;
+			}
+			.cont > div {
+				border: 1px solid red;
+				display: inline-block;
+				width: 100px;
+				font-size: 15px;
+				line-height: 20px;
+			}
+			.cont > div:nth-child(1) {
+				min-height: 80px;
+				max-height: 150px;
+				overflow: scroll;
+			}
+			.cont > div:nth-child(2) {
+				height: 300px;
+				margin-left: 10px;
+			}
+			.spe {
+				width: 300px;
+				height: 100px;
+				border: 1px solid red;
+			}
+			.spe::-webkei-outer-spin-button, .spe::-webkei-inner-spin-button{
+				-webkit-appearance: none;
+			}
+		</style>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="js/jquery-3.4.1.js"></script>
+		<script src="js/serve.js"></script>
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+		<script>
+			function closeHandler() {
+				wx.closeWindow();
+			}
+		</script>
+	</head>
+	<body>
+		<button onclick="add()">增加</button>
+		<div class="test">
+			测试文字 测试文字 测试文字 测试文字 测试文字 测试文字 测试文字 测试文字 测试文字 测试文字 测试文字
+		</div>
+		
+		<div id="app"></div>
+		<input id="testinput" />
+		<div class="cont">
+			<div class="test1">
+				123456
+			</div>
+			<div class="test2">
+				
+			</div>
+		</div>
+		<form id="form1" action="https://www.baidu.com" method="post"
+		
+		>
+			<input name="field1" value="1" />
+			<button type="submit">提交</button>
+		</form>
+		<input class="spe" />
+		<button onclick="closeHandler()">关闭</button>
+	</body>
+	<script>
+		var add = () => {
+			let t = document.querySelector('.test1');
+			t.innerHTML = t.innerHTML + `测试文字 `;
+		}
+		// document.createElement('a');
+		// var a = '111 222';
+		// var htmlStr = '<div data-str="'+a+'"></div>';
+		// $('body').append(htmlStr);
+		//let a = `1.html?abc= bcd 111 222`
+		//doucment.querySelector('a').setAttribute('href', a);
+		// Vue.component('ul-lik', {
+		// 	template: '<input >'
+		// });
+		var vm = new Vue({
+			el: '#app',
+			template: '<input @input="this.inputHandler" @change="this.changeHandler">',
+			data: {
+				text: 123456
+			},
+			methods: {
+				inputHandler(e) {
+					log(e)
+				},
+				changeHandler(e) {
+					// log(e)
+				}
+			}
+		});
+		testinput.addEventListener('input', (e)=>{
+			log(e)
+		})
+		testinput.addEventListener('change', (e)=>{
+			// log(e)
+		})
+		function formatStr(o) {
+			return JSON.stringify(o);
+		}
+		function log(...args) {
+			console.log(...args)
+		}
+		// startListenText('.test')
+
+		// history.pushState({}, 'heheda1', window.location.href);
+		// history.pushState({}, 'heheda2', window.location.href);
+		// history.pushState({}, 'heheda3', window.location.href);
+		// window.addEventListener('pageshow', function (e) {
+		// 	console.log('显示', history.length)
+		// })
+		// window.addEventListener('popstate', function (e) {
+		// 	console.log('后退', history.length, e)
+		// 	alert('呵呵哒')
+		// })
+
+		// void function testFn() {
+		// 	console.log('heheda')
+		// }
+		// console.log('document.referrer', document.referrer)
+		// try{
+		// 	testFn()
+		// } catch (e) {
+		// 	console.log(e, testFn)
+		// }
+		// setTimeout(()=>{
+		// 	history.go(-1)
+		// }, 2000)
+		
+		// var re = /[0-9]+/g;
+		// var str = '你的123好';
+		// var result = /[0-9]+/g[Symbol.replace](str, ($0) => `<span>${$0}</span>`);
+		// console.log(result);
+		let a = {
+			b: 1,
+			c: {
+				d: 2,
+				e: 3
+			}
+		}
+		const {b, c} = a;
+		console.log('bc', b ,c);
+		form1.addEventListener('submit', function (e) {
+			alert('submit');
+			e.preventDefault();
+		})
+		function abc() {
+			console.log(1);
+		}
+		for(let i=0;i++<3;) {
+			console.log('x');
+			form1.addEventListener('click', function () {
+				console.log('111')
+			})
+		}
+	</script>
+	<!-- <script src="js/canvas-nest.js"></script> -->
+	<!-- <script src="js/canvas-nodes.js"></script> -->
+	
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>进行残影滑动节点</title>
+		<script src="js/jquery-3.4.1.js"></script>
+		<style>
+			body {
+				margin: 0;
+			}
+			.main-cont {
+				border: 1px solid red;
+				/* width: 600px; */
+				height: 600px;
+				background: purple;
+				position: relative;
+				overflow: hidden;
+				perspective: 600px;
+			}
+			.paper-card {
+				position: absolute;
+				width: 133px;
+				height: 190px;
+				opacity: 0;
+			}
+			.bg-ele {
+				position: absolute;
+				background: url(img/rebg.png);
+				background-size: 100% 100%;
+				background-position: center center;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				backface-visibility: hidden;
+			}
+			.innerhtml-cont {
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				transform: rotateY(180deg);
+			}
+			.animation-settings {
+				transition: opacity .3s linear, left .3s linear, transform .35s linear, top .1s linear;
+				transform-origin: bottom center;
+			}
+			.animation-reset {
+				transform: rotateY(0deg);
+			}
+			.show {
+				opacity: 1;
+			}
+			.innerhtml {
+				position: absolute;
+				background: url(img/bill-icon.png) no-repeat center center/100% auto;
+				text-align: center;
+				background-color: white;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				overflow: hidden;
+				transform: rotateY(0deg);
+			}
+			.scale-m {
+				transform: rotateY(180deg);
+			}
+			.scale-n {
+				transform: rotateY(180deg);
+			}
+			.parent-3d {
+				transform-style: preserve-3d;
+				transition: transform 1.5s ease-in-out, width 1.5s ease-in-out, height 1.5s ease-in-out, top 1.5s ease-in, left 1.5s linear;
+			}
+			.animate-mask {
+				position: fixed;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				background: rgba(0,0,0,.6);
+				z-index: -1;
+				transition: opacity 1s ease-in;
+				opacity: 0;
+			}
+			.mask-show {
+				opacity: 1;
+				z-index: 998;
+			}
+			.bring-to-top {
+				z-index: 999;
+			}
+			.rotate-mask-bg {
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				background: url(img/img_6.png) no-repeat;
+				background-size: 100% auto;
+				background-position: center center;
+				transition: opacity 2s linear 1s;
+				opacity: 0;
+				overflow: visible;
+			}
+			.mask-show .rotate-mask-bg {
+				opacity: 1;
+				animation: mask-animate 15s linear infinite;
+			}
+			@keyframes mask-animate{
+				from {
+					transform: translateY(-20%) rotateZ(0deg);
+				}
+				to{
+					transform: translateY(-20%) rotateZ(360deg);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="button-bar">
+			<button onclick="javascript: init()">初始化卡牌并入场</button>
+			<button onclick="javascript: disorganizeCards()">卡牌入场后队列合牌</button>
+			<button onclick="javascript: riffle()">卡牌洗牌动作</button>
+			<button onclick="javascript: Licensing()">卡牌离场动作并发牌</button>
+			<button onclick="javascript: run()">连贯执行</button>
+		</div>
+		<div class="main-cont">
+			<div class="paper-card animation-settings card1" data-state="0">
+				<div class="bg-ele"></div>
+				<div class="innerhtml-cont"></div>
+			</div>
+			<div class="paper-card animation-settings card2" data-state="0">
+				<div class="bg-ele"></div>
+				<div class="innerhtml-cont"></div>
+			</div>
+			<div class="paper-card animation-settings card3" data-state="0">
+				<div class="bg-ele"></div>
+				<div class="innerhtml-cont"></div>
+			</div>
+			<div class="paper-card animation-settings card4" data-state="0">
+				<div class="bg-ele"></div>
+				<div class="innerhtml-cont"></div>
+			</div>
+			<div class="paper-card animation-settings card5" data-state="0">
+				<div class="bg-ele"></div>
+				<div class="innerhtml-cont"></div>
+			</div>
+			<div class="paper-card animation-settings card6" data-state="0">
+				<div class="bg-ele"></div>
+				<div class="innerhtml-cont"></div>
+			</div>
+			<div class="paper-card animation-settings card7" data-state="0">
+				<div class="bg-ele"></div>
+				<div class="innerhtml-cont"></div>
+			</div>
+			<div class="paper-card animation-settings card8" data-state="0">
+				<div class="bg-ele"></div>
+				<div class="innerhtml-cont"></div>
+			</div>
+			<div class="paper-card animation-settings card9" data-state="0">
+				<div class="bg-ele"></div>
+				<div class="innerhtml-cont"></div>
+			</div>
+			<div class="animate-mask">
+				<div class="rotate-mask-bg"></div>
+			</div>
+		</div>
+	</body>
+	<script>
+		var duration = 30;//计算时间间隔
+		var counts = 9;//全部的卡牌数量
+		var elements = $('.paper-card');//动画的全部节点
+		var len = elements.length;//元素的数量
+		var canvas = $('.main-cont');
+		
+		var h = canvas.height();//获得显示区域的高度
+		var w = canvas.width();//获得显示区域的宽度
+		
+		var spaceW = 10;//卡牌错开间隔
+		var spaceH = 4;//卡牌错开间隔
+		
+		var itemH = $(elements[0]).height();//卡牌的自身高度
+		var itemW = $(elements[0]).width();//卡牌的自身宽度
+		
+		var degMax = 18;//卡牌最大的偏转角度
+		var _deg = degMax / 9;//偏转角度间隔调整
+		
+		var moveHFix = 5;//水平移动修正值
+		
+		var delayFix = 5;//节点延时修正
+		
+		var initDelayFix = 0;//整体动画起始时间修正
+		
+		//初始化动画-卡牌入场
+		function init() {
+			//1 后生成的卡牌在上边,并且是淡入的
+			//2 计算水平卡牌基准开始位置
+			var _leftNum = (w - itemW - (len - 1) * spaceW) * 0.5;
+			for (var i=0;i<len;i++) {
+				var item = $(elements[i]);
+				var delayTime = (len - i - 1) * delayFix;
+				var delayTimeVal = `0ms, ${delayTime}ms,${delayTime}ms`;
+				var _leftVal1 = _leftNum + (spaceW + moveHFix) * (len - i - 1);//当前节点距离右边界距离
+				item.css({
+					"top": (h - itemH) * 0.5 + "px",
+					"left": _leftVal1 + "px",
+					"transform":"rotateZ("+ (degMax - _deg * i) + "deg)",
+					"transition-delay": delayTimeVal
+				});
+				(function (i) {
+					var item = $(elements[i]);
+					setTimeout(function () {
+						item.addClass('show');
+					},(i + 1) * duration + initDelayFix);
+				})(i);
+				(function (i) {
+					var item = $(elements[i]);
+					var _leftVal2 = _leftNum + spaceW * (len - i - 1);//当前节点距离右边界距离
+					setTimeout(function () {
+						item.css({
+							"left": _leftVal2 + "px",
+							"transform": "rotateZ(0deg)"
+						});
+					},(len - i) * duration + initDelayFix);
+				})(i);
+			}
+		}
+		
+		var times = 2;//洗牌动画循环次数
+		var moveVFixMax = 15;//总向修正最大值
+		var waitDelay2 = 350;//绝对居中等待时间
+		var hFixUgly = 10;//洗牌横向混乱修正
+		//卡牌洗牌动画-打乱顺序
+		function disorganizeCards() {
+			var _leftNum = (w - itemW) * 0.5; //绝对剧中的横行基准位置
+			for (var i=0;i<len;i++) {
+				var item = $(elements[i]);
+				item.css({
+					"transition-delay": "none",
+					"left": _leftNum + 'px',
+					"transition-delay": "0ms, 50ms, 0ms, 0ms"
+				});
+				(function(i) {
+					var item = $(elements[i]);
+					setTimeout(function () {
+						var random = Math.random() * 0.9 + 0.1;//随机修正系数 0.1 - 1.0
+						item.css({
+							"top": ((h - itemH) * 0.5 + (moveVFixMax/len * (len - i)) + 'px'),
+							"left": _leftNum + ((i%2)?(- hFixUgly * random):(hFixUgly * random)) + 'px' 
+						});
+					}, waitDelay2);
+				})(i);
+			}
+		}
+		
+		var hRiffleFix = 18;//洗排动作横向修正
+		var waitDelay3 = 350;//洗牌合牌动作等待时间
+		function riffle() {
+			riffleHandler();//第一次洗牌动作
+			setTimeout(riffleHandler, waitDelay3 * 2);//第二次洗牌动作
+		}
+		function riffleHandler() {
+			var _leftNum = (w - itemW) * 0.5; //绝对剧中的横行基准位置
+			for (var i=0;i<len;i++) {
+				var item = $(elements[i]);
+				var val = Math.ceil((len - i - 1) * 0.5 )* hRiffleFix;
+				item.css({
+					"transition-delay": "none",
+					"left": _leftNum + ((i%2)?(-val):(val)) + 'px'
+				});
+				(function(i){
+					var item = $(elements[i]);
+					setTimeout(function(){
+						item.css({
+							"left": _leftNum + 'px'
+						});
+					}, waitDelay3);
+				})(i);
+			}
+		}
+		
+		//最终发牌动作
+		function Licensing() {
+			//发牌动作拆解
+			//1全部卡牌从下方退场
+			for (var i=0;i<len;i++) {
+				var item = $(elements[i]);
+				item.css({
+					"transition": "top 2.8s linear, left 2.8s linear",
+					"top": h + 'px'
+				});
+			}
+			//2前边传递过来的可选卡牌进行正式发牌动作
+			//延时当卡牌下移一段距离后开始发牌
+			var timeSpace = 450;//发牌间隔时间
+			var _delay = 400;//发牌前的等待时间
+			setTimeout(function() {
+				var t = setInterval(function () {
+					if (!takeOneCard()) {
+						clearInterval(t);
+						t = null;
+					}
+				}, timeSpace)
+			}, _delay);
+		}
+		
+		var chanceTimes = 4;//可变参数,由后端传递
+		var tokenIndex = 0;
+		var spaceBetweenCardsInRow = 20;//每行多张卡牌间距
+		var spaceBetweenCardsInColumn = 20;//每列多张卡牌间距
+		var rows = Math.ceil(chanceTimes/2);//显示几行
+		function takeOneCard(){
+			if (tokenIndex <= chanceTimes-1) {
+				var currentTokeIndexFromEles = len - tokenIndex - 1;
+				var item = $(elements[currentTokeIndexFromEles]);
+				var _topBase = (h - rows * itemH - (rows - 1) * spaceBetweenCardsInColumn) * 0.5;//纵向基准位置
+				var _leftBase = (w - 2 * itemW - spaceBetweenCardsInRow) * 0.5;//横向基准位置
+				var _belongRowIndex = Math.floor(tokenIndex/2);//当前节点属于的行索引值
+				var _lelongColumnIndex = tokenIndex%2?1:0;//当前节点所属列索引值
+				var _hPosition = _leftBase + _lelongColumnIndex * (itemW + spaceBetweenCardsInRow);//通用横向卡牌位置
+				//单数卡牌横向兼容修正方式
+				if (chanceTimes%2) {//单数卡牌情况判断
+					if (tokenIndex == chanceTimes - 1) {//卡牌最后一张
+						_hPosition = (w - itemW) * 0.5;//横向位置修正
+					}					
+				}
+				item.css({
+					"top": _topBase + _belongRowIndex * (spaceBetweenCardsInColumn + itemH) + 'px',
+					"left":  _hPosition + 'px',
+					"transition": "top 0.8s linear, left 0.8s linear"
+				});
+				tokenIndex++;
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		function run() {
+			console.profile('start');
+			var step1 = 800;//第一步动画耗时
+			var step2 = 800;//第二步动画耗时
+			var step3 = 1400;//第三步动画耗时
+			var step4 = 3000;//第四步动画耗时
+			init();//执行第一步动画
+			setTimeout(disorganizeCards, step1);//执行第二步动画
+			setTimeout(riffle, step1 + step2);//执行第三步动画
+			setTimeout(Licensing, step1 + step2 + step3);//执行第四步动画
+			// setTimeout(resetAllTranstitionProp, step1 + step2 + step3 + step4);
+			console.profileEnd();
+		}
+		
+		initListeners();
+		
+		function resetAllTranstitionProp() {
+			for (var i=0;i<len;i++) {
+				var item = $(elements[i]);
+				item.removeClass('animation-settings')
+				item.css({
+					"transition": "",
+					"transform": ""
+				});
+				item.addClass('animation-reset');
+				(function(item) {
+					setTimeout(function(){
+						item.addClass('parent-3d');
+					}, 0);
+				})(item);
+			}
+		}
+		
+		var scaleNum = 1.5;//放大系数
+		
+		function initListeners() {
+			$('body').on('click', '.paper-card', function () {
+				var item = $(this);
+				var state = item.attr('data-state');//0表示初始值空白 1表示填充过值并放大居中 2表示回放并还原大小
+				switch (state) {
+					case '0':
+						item.find('.innerhtml-cont').html($('<div class="innerhtml">hello, world</div>'));
+						showMask();
+						bringToTop(item);
+						item.attr('data-state', '1');
+						setTimeout(function(){
+							var _h = scaleNum * itemH;
+							var _w = scaleNum * itemW;
+							// var _l =
+							item.css({
+								'height': _h + 'px',
+								'width': _w + 'px'
+							})
+							item.addClass('scale-m');
+						}, 0);
+						break;
+					case '1':
+						item.addClass('scale-n').removeClass('scale-m bring-to-top');
+						hideMask();
+						break;
+					case '2':
+						break;
+				}
+			})
+			$('.animate-mask').on('touchstart', function(e){
+				e.stopImmediatePropagation();
+				e.preventDefault();
+			})
+		}
+		
+		function showMask() {
+			$('.animate-mask').addClass('mask-show');
+		}
+		
+		function hideMask() {
+			$('.animate-mask').removeClass('mask-show');
+		}
+		
+		function bringToTop(item) {
+			$(item).addClass('bring-to-top');
+		}
+	</script>
+</html>

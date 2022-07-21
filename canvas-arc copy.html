@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+		<meta name="format-detection" content="telephone=no,email=no,adress=no">
+		<title></title>
+		<style>
+			.graph-cont canvas {
+				transform: scale(.5);
+				transform-origin: left top;
+				border: 1px solid red;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="graph-cont">
+			<canvas id="canvas"></canvas>
+		</div>
+	</body>
+	<script>
+		var count = 0;//计数器
+		var _ff;//一共绘制帧数
+		var ff;//每帧变化角度数
+		var ctx;//画布上下文
+		
+		(function(w){
+			var option = {
+			};
+			var defaultOption = {
+				ss: 180,//开始角
+				tt: 180,//结束角
+				interval: 5,//画面每帧时间间隔
+				total: 2000,//动画总时间
+				lW: 15,//线宽度
+				bgColor: '#cccc',
+				r: 100,//圆半径
+				colors: {
+					0: "#009",
+					1: "#f00"
+				},
+				type: 'full',//画半圆或者圆，full｜half,
+				precision: 2
+			}
+			
+			function init(options) {
+				let canvas = document.querySelector(options.canvasId);
+				if (canvas) {
+					option.precision = options.precision || 2;
+					option.precision = Math.min(Math.round(option.precision), 4);
+					ctx = canvas.getContext('2d');
+					option.palette = createPalette(options.colors || defaultOption.colors);
+					canvas.width = options.w * option.precision;
+					canvas.height = options.h * option.precision
+					option.w = canvas.width;
+					option.h = canvas.height;
+					canvas.style.transform = `scale(${1/option.precision})`;
+					option.ss = options.startAngle || defaultOption.ss;
+					option.type = options.type || defaultOption.type;
+					option.tt = options.endAngle || defaultOption.tt;
+					option.interval = options.interval || defaultOption.interval;
+					option.total = options.duration || defaultOption.total;
+					
+					option.lW = (options.lineWidth || defaultOption.lW) * option.precision;
+					option.bgColor = options.bgColor || defaultOption.bgColor;
+					option.r = options.r || defaultOption.r;
+					_ff = option.total/option.interval;
+					ff = (option.tt - option.ss)/_ff;
+					option.clockwise = (option.tt - option.ss > 0);
+					setLineStyle();
+					startDraw();
+				}
+			}
+			
+			function setLineStyle() {
+				ctx.lineWidth = option.lW;//线宽度
+				ctx.globalAlpha = 1;//画布默认透明度
+				ctx.lineCap = "round";//线末端样式square，round butt(默认)
+				ctx.lineJoin = "round";//bevel round miter(默认)
+			}
+			
+			function startDraw() {
+				
+				count = 0;
+				//开始绘制画面
+				let drawFlag = true;
+				var timer = setInterval(function () {
+					drawFlag = true;
+				}, option.interval);
+				requestAnimationFrame(progress);
+				function progress() {
+					if (drawFlag) {
+						drawFlag = false;
+						count++;
+						drawArc(option.ss, option.ss + count*ff);
+						if (count >= _ff) {
+							clearInterval(timer);
+							drawFlag = false;
+						}
+					}
+					requestAnimationFrame(progress);
+				}
+			}
+			
+			//画出图形
+			function drawArc(start, end) {
+				ctx.clearRect(0,0,option.w,option.h);				
+				//画默认背景圆
+				ctx.beginPath();
+				ctx.strokeStyle = option.bgColor;
+				var c = option.type == 'full'?(2* Math.PI):(Math.PI);
+				var d = option.ss/180*Math.PI;
+				c=c+d;
+				ctx.arc(option.w/2, option.h/2, option.r * option.precision,d, c,!option.clockwise);
+				ctx.stroke();
+				
+				//画进度条
+				splitArc(option.w/2, option.h/2, option.r * option.precision, start, end);			
+			}
+			
+			//设置笔触样式 
+			function setStrokeStyle(r,g,b,a) {
+				ctx.strokeStyle = `rgba(${r},${g},${b}`;
+				ctx.globalAlpha = a;
+			}
+			
+			//画渐变弧线
+			function splitArc(x,y,r,start,end) {
+				let f = 0.8;//0.6;//柔和度
+				let t = Math.abs(end - start) * f;//切分总数
+				let _i = option.clockwise?(1/f): (-1/f);
+				let _j = option.clockwise?1:-1;
+				let current = start;
+				
+				for(let i=0;i<t;i++) {
+					let color = option.palette.pickColor(Math.round(i*255/t));
+					ctx.beginPath();
+					setStrokeStyle(color[0],color[1],color[2],1);
+					ctx.arc(x,y,r,current/180*Math.PI,(current+_j)/180*Math.PI, !option.clockwise);
+					ctx.stroke();
+					current = current + _i;
+				}
+			}
+			
+			//画渐变弧线
+			function splitArc2(x,y,r,start,end) {
+				let f = 0.8;//0.6;//柔和度
+				let t = Math.abs(end - start) * f;//切分总数
+				let _i = option.clockwise?(1/f): (-1/f);
+				let _j = option.clockwise?1:-1;
+				let current = start;
+				let x1, y1, x2, y2;
+				let _point_start = getPoint(x0,y0,r,angle);
+				x1 = _point_start[0];
+				y1 = _point_start[1];
+				current/180*Math.PI,(current+_j)/180*Math.PI, !option.clockwise
+				for(let i=0;i<t;i++) {
+					let color = option.palette.pickColor(Math.round(i*255/t));
+					ctx.beginPath();
+					setStrokeStyle(color[0],color[1],color[2],1);
+					
+					ctx.arcTo(x1, y1, x2, y2, r);
+					
+					ctx.stroke();
+					current = current + _i;
+				}
+			}
+			
+			//根据坐标(x0, y0) 半径r 角度angle 获取对应的点坐标
+			function getPoint(x0,y0,r,angle) {
+				let x = Math.cos(angle) * r + x0;
+				let y = Math.sin(angle) * r + y0;
+				return [x, y];
+			}
+			
+			//渐变色调色盘
+			function createPalette(colorStops) {			    
+			    let width = 256, height = 20;
+			
+			    // 创建canvas
+			    let palatteCanvas = document.createElement("canvas");
+			    palatteCanvas.width = width;
+			    palatteCanvas.height = height;
+			    let ctx = palatteCanvas.getContext("2d");
+			
+			    // 创建线性渐变色
+			    let linearGradient = ctx.createLinearGradient(0, 0, width, 0);
+			    for (const key in colorStops) {
+			        linearGradient.addColorStop(key, colorStops[key])
+			    }
+			
+			    // 绘制渐变色条
+			    ctx.fillStyle = linearGradient;
+			    ctx.fillRect(0, 0, width, height);
+			
+			    // 读取像素值
+			    let imageData = ctx.getImageData(0, 0, width, 1).data
+			
+			    return {
+			        canvas: palatteCanvas,
+			        pickColor: function (position) {
+			            return imageData.slice(position * 4, position * 4 + 3)
+			        }
+			    }
+			}
+			
+			
+			let returnO = {init}
+			w.top.ProgressArc = returnO;
+			return returnO;
+		})(window);
+		
+		
+		
+		ProgressArc.init(
+		{
+			canvasId: 'canvas',
+			r: 100,//默认100，
+			w: 500,//画布宽，默认500
+			h: 500,//画布高，默认500
+			startAngle: 180,//起始角度，默认180
+			endAngle: 360,//终止角度，必须传
+			interval: 16,//帧间隔时间，默认5ms
+			duration: 1000,//动画时间，默认2000
+			lineWidth: 16,//描边线宽度，默认15
+			bgColor: '#dddc',//背景色，默认#cccc
+			colors: {
+				0: 'red',
+				1: 'blue'
+			},
+			type: 'half',//画半圆或者圆，full｜half。默认full
+			precision: 15
+		})
+	</script>
+</html>

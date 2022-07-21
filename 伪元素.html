@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			.test {
+				height: 20px;
+				width: 60px;
+				position: relative;
+			}
+			.test::after {
+				content: '';
+				display: block;
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				color: black;
+				outline: 1px solid red;
+				/* background: pink; */
+				pointer-events: all;
+			}
+			.test::after:hover {
+				content: 'hello world';
+				outline-color: #000000;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="test">
+			
+		</div>
+	</body>
+</html>

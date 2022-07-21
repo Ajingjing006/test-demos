@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>HASHCHANGE</title>
+<style>
+    
+</style>
+</head>
+<body>
+	<div onclick="doAssert()">点击分享</div>
+<!-- <script src="https://appx/web-view.min.js"></script> -->
+<script>
+	var aliMiniEnvAsserted = false;
+	var isAliMini = false;
+	//是阿里浏览器环境，自动加载对应的js
+	if (isAliApp()) {
+		var aliSDKjs = document.createElement('script');
+		aliSDKjs.setAttribute('src', 'https://appx/web-view.min.js');
+		document.querySelector('body').appendChild(aliSDKjs);
+		aliMiniAssert();//进行环境判断
+	}
+	
+	function isAliApp() {
+		return /AliApp/i.test(navigator.userAgent);
+	}
+	
+	function aliSDKLoaded() {
+		return typeof my !== 'undefined' && typeof my.getEnv === 'function';
+	}
+	
+	//点击分享触发的方法前，先判断
+	function doAssert() {
+		if (isAliApp()) {//ali浏览器环境才进行判断
+			if (aliMiniEnvAsserted) {
+				//环境已经判断过了
+				if (isAliMini) {
+					//是ali小程序
+					showGuidePopupHandler();//显示引导提示窗
+				} else {
+					//正常逻辑
+					alert('正常逻辑');
+				}
+			} else {
+				setTimeout(doAssert, 50);//等待环境判断结束
+			}
+		} else {
+			//正常逻辑
+			alert('正常逻辑');
+		}
+	}
+	
+	//持续进行环境判断
+	function aliMiniAssert() {
+		if (aliSDKLoaded()) {
+			my.getEnv(function(res) {
+			  aliMiniEnvAsserted = true;
+			  isAliMini = true;//res.miniprogram;
+			});
+		} else {
+			setTimeout(aliMiniAssert, 50);
+		}
+	}
+	
+	//打开ali小程序的引导提示窗口
+	function showGuidePopupHandler() {
+		alert('是小程序呢')
+	}
+</script>
+</body>
+</html>

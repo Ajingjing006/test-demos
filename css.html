@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+		<title>filter constrast</title>
+		<style>
+			.cont {
+				width: 300px;
+				height: 300px;
+				border: 1px solid white;
+				position: relative;
+				background: black;
+			}
+			.child {
+				position: absolute;
+				border-radius: 50%;
+			}
+			.child1 {
+				background: red;
+				width: 100px;
+				height: 100px;
+			}
+			.child2 {
+				background: yellow;
+				width: 50px;
+				height: 50px;
+				animation: move 2s linear alternate-reverse infinite;
+				top: 20px;
+			}
+			@keyframes move{
+				from{
+					left: 0; 
+				}
+				to{
+					left: 100px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="cont">
+			<div class="child child1"></div>
+			<div class="child child2"></div>
+		</div>
+	</body>
+</html>
