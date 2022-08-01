@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>测试命令模式</title>
+		<meta name="viewport" content="width=devie-width">
+		<script type="module">
+			// module 自带异步闭包效果【原生模块化效果】
+			function setCommand(btn, command) {
+				btn.onclick = () => {
+					command.excute();
+				}
+			}
+			
+			//command类型
+			function Command(fn) {
+				this.callBack = fn;
+			}
+			//设置公用执行函数
+			Command.prototype.excute = function () {
+				this.callBack();
+			}
+			
+			const btn1Commander = new Command(() => {
+				console.log(1);
+			})
+			const btn2Commander = new Command(() => {
+				console.log(2);
+			})
+			const btn3Commander = new Command(() => {
+				console.log(3);
+			})
+			const btn4Commander = new Command(() => {
+				console.log(4);
+			})
+			
+			
+			setCommand(btn1, btn1Commander);
+			setCommand(btn2, btn2Commander);
+			setCommand(btn3, btn3Commander);
+			setCommand(btn4, btn4Commander);
+		</script>
+	</head>
+	<body>
+		<div class="button-bar">
+			<button id="btn1">行为1</button>
+			<button id="btn2">行为2</button>
+			<button id="btn3">行为3</button>
+			<button id="btn4">行为4</button>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<!-- <script src="jq/jquery.min.js"></script> -->
+		<!-- <script src="jq/jquery-2.0.0.min.js"></script> -->
+		<!-- <script src="jq/jquery-3.6.0.min.js"></script> -->
+		<!-- <script src="jq/jquery-migrate.js"></script> -->
+		
+		<script src="require/require.js"></script>
+		<script src="require/require.config.js"></script>
+	</head>
+	<body>
+		<input id="field" name="certNo" type="text" placeholder="18位身份证号" maxlength="18" datatype="n18" monitor="" hidden>
+		<input type="checkbox" id="abc" onclick="abcHandler(event)" />
+		<input type="checkbox" id="abc2" />
+	</body>
+	<script>
+		// console.log(12123123, $('input').size())
+		// function abcHandler() {
+		// 	console.log($(abc).attr('checked'), $(abc).prop('checked'));
+		// 	console.log('size: ', $('input').size());
+		// }
+	</script>
+	
+	<script>
+		requirejs(['jquery'], function($) {
+			$('#abc2').on('click', function() {
+				// console.log($(this).attr('checked'), $(this).prop('checked'));
+				// console.log('size: ', $('input').size())
+				$(field).attr('value', Date.now());
+				setTimeout(function () {
+					console.log($(field).val());
+				})
+			})
+			// abc2.onclick = function () {
+			// 	console.log(123123);
+			// }
+		})
+		
+	</script>
+	<!-- <script src="jq/jquery-migrate.js"></script> -->
+	<!-- <script src="jq/jquery-3.6.0.min.js"></script> -->
+</html>

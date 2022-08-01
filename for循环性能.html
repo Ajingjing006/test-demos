@@ -2,62 +2,63 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title></title>
-		<script src="js/lib/ramda.min.js"></script>
+		<title>测试职责链</title>
+		<!-- <script src="js/lib/ramda.min.js"></script> -->
 		<script>
-			var data = {
-				a: [1, 2, 3],
-				b: ['5', '44', '99'],
-				rows: [{
-						key: '1',
-						p_1: {
-							name: 1
-						},
-						p_2: {
-							name: 2
-						},
-						p_3: {
-							name: 3
-						},
-						p_4: {
-							name: 4
-						},
-						p_5: {
-							name: 5
-						}
-					},
-					{
-						key: '2',
-						p_1: {
-							name: 1
-						},
-						p_2: {
-							name: 2
-						},
-						p_3: {
-							name: 3
-						},
-						p_4: {
-							name: 4
-						},
-						p_5: {
-							name: 5
-						}
-					}
-				]
+			class Chain {
+				constructor(fn) {
+					this.fn = fn;
+					this.successor = null;
+				}
 			}
+			Chain.prototype.passRequest = function(...args) {
+				const ret = this.fn(...args);
+				if (ret == 'nextSuccessor' && this.successor) {
+					return this.successor.passRequest.call(this.successor, ...args);
+				}
+				return ret;
+			}
+			Chain.prototype.setNextSuccessor = function(successor) {
+				return this.successor = successor;
+			}
+
+
+
+			var order500 = function(orderType, pay, stock) {
+				if (orderType === 1 && pay === true) {
+					console.log('500 元定金预购，得到 100 优惠券');
+				} else {
+					return 'nextSuccessor';
+				}
+			};
+			var order200 = function(orderType, pay, stock) {
+				console.log(this);
+				if (orderType === 2 && pay === true) {
+					console.log('200 元定金预购，得到 50 优惠券');
+				} else {
+					return 'nextSuccessor'; // 我不知道下一个节点是谁，反正把请求往后面传递
+				}
+			}
+			var orderNormal = function(orderType, pay, stock) {
+				if (stock > 0) {
+					console.log('普通购买，无优惠券');
+				} else {
+					console.log('手机库存不足');
+				}
+			};
+
+			var chainOrder500 = new Chain(order500);
+			var chainOrder200 = new Chain(order200);
+			var chainOrderNormal = new Chain(orderNormal);
+
+			chainOrder500.setNextSuccessor(chainOrder200);
+			chainOrder200.setNextSuccessor(chainOrderNormal);
 			
-			//删除对应的属性
-			// var result = R.evolve({
-			// 	rows: R.map(row => R.reduce((acc, key) => R.dissoc(key, acc), row, ['p_1', 'p_5']))
-			// }, data);
-			// var b = {a:11};
-			// var c = R.dissoc('a', b);
+			chainOrder500.passRequest( 1, true, 500 );
 			
-			var b = {a:11};
-			var c = R.dissoc('a', b);
+			chainOrder500.passRequest( 2, true, 500 );
 			
-			console.log(b == c);
+			chainOrder500.passRequest( 1, false, 0 );
 		</script>
 	</head>
 	<body>
